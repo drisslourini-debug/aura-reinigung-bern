@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { ShieldCheck, FileCheck, Sparkles, UserCheck } from "lucide-react";
 
 export function GuaranteeTimeline() {
@@ -34,15 +35,27 @@ export function GuaranteeTimeline() {
   return (
     <section id="garantie" className="py-24 relative overflow-hidden bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold uppercase tracking-wider mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          {/* Official 3D Guarantee Seal */}
+          <div className="w-20 h-20 mx-auto relative rounded-2xl overflow-hidden shadow-xl border border-slate-200 hover:scale-105 transition-transform duration-300">
+            <Image
+              src="/images/logo-badge-3d.jpg"
+              alt="AURA Clean Bern 100% Schweizer Abnahmegarantie Siegel"
+              fill
+              className="object-cover"
+              sizes="80px"
+            />
+          </div>
+
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold uppercase tracking-wider">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
             <span>Das AURA Sicherheitsversprechen</span>
           </div>
+
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900">
             Das 3-Stufen Garantie-Protokoll
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-600">
+          <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Wohnungsabgaben in der Schweiz können nervenaufreibend sein. Mit unserem
             Protokoll geben Sie die Verantwortung komplett an uns ab.
           </p>

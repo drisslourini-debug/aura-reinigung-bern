@@ -14,7 +14,7 @@ export function Footer() {
           {/* Col 1: Brand & Philosophy */}
           <div className="lg:col-span-2 space-y-4">
             <div className="bg-white/5 p-3 rounded-2xl inline-block border border-white/10">
-              <Logo className="text-white" showTagline={true} />
+              <Logo variant="dark" showTagline={true} />
             </div>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
               {SITE_CONFIG.brand.subTagline} Als eingespielter Berner Familienbetrieb

@@ -17,11 +17,26 @@ export const metadata: Metadata = {
     "Fensterreinigung Bern",
   ],
   authors: [{ name: SITE_CONFIG.brand.name }],
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/logo-icon.svg" }],
+  },
   openGraph: {
     title: `${SITE_CONFIG.brand.name} – Makellos sauber. Punktgenau abgenommen.`,
     description: "Schweizer Premium-Reinigungsunternehmen in Bern. 100% Abnahmegarantie, Fixpreise & persönliche Übergabebegleitung.",
     locale: "de_CH",
     type: "website",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "AURA Clean Bern - Schweizer Reinigungsunternehmen",
+      },
+    ],
   },
 };
 
@@ -52,6 +67,8 @@ export default function RootLayout({
   return (
     <html lang="de-CH" className="scroll-smooth">
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/logo-icon.svg" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
