@@ -280,7 +280,7 @@ export const SERVICES: ServiceItem[] = [
     ],
   },
   {
-    slug: "spezialreinigung-baureinigung",
+    slug: "baureinigung",
     title: "Baureinigung & Spezialreinigungen",
     headline: "Von der Baugrobreinigung bis zur bezugsfertigen Feinabnahme.",
     category: "Liegenschaften",
