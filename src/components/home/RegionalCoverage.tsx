@@ -1,5 +1,5 @@
 import React from "react";
-import { MapPin, CheckCircle, Clock } from "lucide-react";
+import { MapPin, CheckCircle2, Clock } from "lucide-react";
 import { SITE_CONFIG } from "@/config/site.config";
 
 export function RegionalCoverage() {
@@ -9,12 +9,12 @@ export function RegionalCoverage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Info */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-200/80 text-cyan-800 text-xs font-semibold uppercase tracking-wider">
-              <MapPin className="w-3.5 h-3.5 text-cyan-600" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-red-600 inline-block" />
               <span>Lokal verankert in Bern</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">
               Ihr Reinigungspartner im gesamten Grossraum Bern.
             </h2>
 
@@ -26,11 +26,11 @@ export function RegionalCoverage() {
 
             <div className="space-y-3 pt-2">
               <div className="flex items-center gap-3 text-sm text-slate-700">
-                <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
                 <span>Keine zusätzlichen Anfahrtskosten im Raum Bern & Agglomeration</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-slate-700">
-                <Clock className="w-5 h-5 text-cyan-500 shrink-0" />
+                <Clock className="w-5 h-5 text-slate-700 shrink-0" />
                 <span>Kurzfristige Termine bei spontanen Zügel- oder Notfällen</span>
               </div>
             </div>
@@ -42,16 +42,16 @@ export function RegionalCoverage() {
               {SITE_CONFIG.regions.map((region, idx) => (
                 <div
                   key={idx}
-                  className="glass-panel rounded-2xl p-4 flex items-center gap-3.5 hover:border-cyan-400 transition-all duration-200 hover:shadow-md"
+                  className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex items-center gap-3.5 hover:border-slate-300 hover:bg-white transition-all duration-200 shadow-sm"
                 >
-                  <div className="w-8 h-8 rounded-xl bg-slate-900 text-cyan-400 flex items-center justify-center shrink-0">
-                    <MapPin className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-white" />
                   </div>
                   <div>
                     <div className="text-xs font-bold text-slate-900">
                       {region}
                     </div>
-                    <div className="text-[11px] text-emerald-600 font-medium">
+                    <div className="text-[11px] text-emerald-700 font-medium">
                       ✓ Täglich im Einsatz
                     </div>
                   </div>

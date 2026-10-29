@@ -12,13 +12,13 @@ export const metadata: Metadata = {
 
 export default function ImpressumPage() {
   return (
-    <div className="pt-32 pb-24 bg-ambient-glow min-h-screen">
+    <div className="pt-32 pb-24 bg-slate-50 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
           Impressum
         </h1>
 
-        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-slate-200/80 space-y-6 text-sm text-slate-700 leading-relaxed">
+        <div className="bg-white p-8 sm:p-12 rounded-2xl border border-slate-200 shadow-sm space-y-6 text-sm text-slate-700 leading-relaxed">
           <section className="space-y-2">
             <h2 className="text-base font-bold text-slate-900">Verantwortliche Instanz</h2>
             <p>

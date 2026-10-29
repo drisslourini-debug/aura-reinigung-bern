@@ -59,7 +59,7 @@ export function Header() {
           <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-700">
             <Link
               href="/dienstleistungen"
-              className="hover:text-cyan-600 transition-colors py-1"
+              className="hover:text-slate-900 transition-colors py-1"
             >
               Dienstleistungen
             </Link>
@@ -105,7 +105,7 @@ export function Header() {
 
             <Link
               href="/offerte-anfragen"
-              className="inline-flex items-center gap-2 text-sm font-medium text-white bg-slate-900 hover:bg-cyan-600 px-5 py-2.5 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center gap-2 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 px-5 py-2.5 rounded-xl shadow-sm transition-all duration-200 hover:shadow active:scale-98"
             >
               <span>Offerte anfragen</span>
               <ArrowRight className="w-4 h-4" />
@@ -117,7 +117,7 @@ export function Header() {
             <a
               href={`tel:${SITE_CONFIG.contact.phone}`}
               aria-label="Telefon anrufen"
-              className="p-2.5 rounded-xl text-cyan-700 bg-cyan-50 border border-cyan-200/60 active:scale-95 transition-transform"
+              className="p-2.5 rounded-xl text-slate-800 bg-slate-100 border border-slate-200 active:scale-95 transition-transform"
             >
               <Phone className="w-4 h-4" />
             </a>
@@ -149,16 +149,16 @@ export function Header() {
             <div className="grid grid-cols-2 gap-2 pt-1">
               <a
                 href={`tel:${SITE_CONFIG.contact.phone}`}
-                className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-slate-900 text-white font-bold text-xs shadow"
+                className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-slate-900 text-white font-bold text-xs shadow-sm"
               >
-                <Phone className="w-3.5 h-3.5 text-cyan-400" />
+                <Phone className="w-3.5 h-3.5 text-white" />
                 <span>{SITE_CONFIG.contact.phoneDisplay}</span>
               </a>
               <a
                 href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow"
+                className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-sm"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
                 <span>WhatsApp Chat</span>
@@ -173,8 +173,8 @@ export function Header() {
                 className="flex items-center justify-between p-3.5 text-sm font-bold text-slate-800 active:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center">
-                    <Sparkles className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-lg bg-slate-100 text-slate-800 flex items-center justify-center">
+                    <Building2 className="w-4 h-4" />
                   </div>
                   <span>Alle Dienstleistungen</span>
                 </div>

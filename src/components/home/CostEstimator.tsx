@@ -263,8 +263,8 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
           {step <= 4 && (
             <div className="mb-8">
               <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-2.5">
-                <span className="flex items-center gap-1.5 text-cyan-700">
-                  <span className="w-5 h-5 rounded-full bg-cyan-600 text-white flex items-center justify-center text-[10px]">
+                <span className="flex items-center gap-1.5 text-slate-800 font-bold">
+                  <span className="w-5 h-5 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px]">
                     {step}
                   </span>
                   <span>Schritt {step} von 4</span>
@@ -341,7 +341,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                           <span
                             className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
                               isSelected
-                                ? "bg-white/20 text-cyan-300"
+                                ? "bg-white/20 text-slate-300"
                                 : "bg-slate-100 text-slate-600"
                             }`}
                           >
@@ -354,7 +354,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                         <div
                           className={`w-5 h-5 rounded-full border flex items-center justify-center ${
                             isSelected
-                              ? "bg-cyan-400 border-cyan-400 text-slate-950"
+                              ? "bg-slate-900 border-slate-900 text-white"
                               : "border-slate-300 bg-white"
                           }`}
                         >
@@ -370,7 +370,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-cyan-600 text-white font-bold text-sm shadow-md transition-colors active:scale-98"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-colors active:scale-98"
                 >
                   <span>Fragebogen für {currentServiceDef.shortTitle} starten</span>
                   <ArrowRight className="w-4 h-4" />
@@ -385,7 +385,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
               {/* Header with active service indicator */}
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div>
-                  <div className="text-xs font-bold text-cyan-600 uppercase tracking-wider">
+                  <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                     {currentServiceDef.title}
                   </div>
                   <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight mt-0.5">
@@ -416,8 +416,8 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => setRoomIndex(idx)}
                             className={`py-3 px-1.5 rounded-xl text-center border font-bold transition-all duration-200 active:scale-95 min-h-[58px] flex flex-col items-center justify-center ${
                               isSelected
-                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/40"
-                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/20"
+                                ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400 hover:bg-slate-50"
                             }`}
                           >
                             <span className="text-base sm:text-lg font-black leading-tight">
@@ -449,12 +449,12 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             className={`p-3 rounded-xl border text-left text-xs font-semibold transition-all active:scale-98 ${
                               isSelected
                                 ? "bg-slate-900 text-white border-slate-900 shadow-sm"
-                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
                             }`}
                           >
                             <div>{b.label}</div>
                             {b.surcharge > 0 && (
-                              <span className={`text-[11px] font-mono mt-0.5 block ${isSelected ? "text-cyan-300" : "text-slate-400"}`}>
+                              <span className={`text-[11px] font-mono mt-0.5 block ${isSelected ? "text-slate-300" : "text-slate-400"}`}>
                                 +{b.surcharge}.-
                               </span>
                             )}
@@ -524,12 +524,12 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => setPropertySize(p.id)}
                             className={`p-3.5 rounded-xl border text-left transition-all active:scale-98 ${
                               isSelected
-                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/30"
-                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                                ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
                             }`}
                           >
                             <div className="text-xs font-bold">{p.label}</div>
-                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-slate-300" : "text-slate-500"}`}>
                               Richtzeit: {p.hours}
                             </div>
                           </button>
@@ -554,11 +554,11 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             className={`p-3 rounded-xl border text-center transition-all active:scale-98 min-h-[70px] flex flex-col items-center justify-center ${
                               isSelected
                                 ? "bg-slate-900 text-white border-slate-900 shadow-md"
-                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
                             }`}
                           >
                             <div className="text-xs font-bold leading-tight">{f.label}</div>
-                            <div className={`text-[10px] mt-1 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                            <div className={`text-[10px] mt-1 ${isSelected ? "text-slate-300" : "text-slate-500"}`}>
                               {f.desc}
                             </div>
                           </button>
@@ -625,12 +625,12 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => setUnitsSize(u.id)}
                             className={`p-3.5 rounded-xl border text-left transition-all active:scale-98 ${
                               isSelected
-                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/30"
-                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                                ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
                             }`}
                           >
                             <div className="text-xs font-bold">{u.label}</div>
-                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-slate-300" : "text-slate-500"}`}>
                               Basis-Monatspauschale ab CHF {u.baseMin}.-
                             </div>
                           </button>
@@ -725,12 +725,12 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => setPaneCount(p.id)}
                             className={`p-3.5 rounded-xl border text-left transition-all active:scale-98 ${
                               isSelected
-                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/30"
-                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                                ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
                             }`}
                           >
                             <div className="text-xs font-bold">{p.label}</div>
-                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-slate-300" : "text-slate-500"}`}>
                               Pauschalrahmen CHF {p.baseMin} – {p.baseMax}.-
                             </div>
                           </button>
@@ -755,12 +755,12 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             className={`p-3 rounded-xl border text-left text-xs font-semibold transition-all active:scale-98 ${
                               isSelected
                                 ? "bg-slate-900 text-white border-slate-900 shadow-sm"
-                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
                             }`}
                           >
                             <div>{b.label}</div>
                             {b.surcharge > 0 && (
-                              <span className={`text-[11px] font-mono mt-0.5 block ${isSelected ? "text-cyan-300" : "text-slate-400"}`}>
+                              <span className={`text-[11px] font-mono mt-0.5 block ${isSelected ? "text-slate-300" : "text-slate-400"}`}>
                                 +{b.surcharge}.-
                               </span>
                             )}
@@ -828,12 +828,12 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => setGewerbeSize(s.id)}
                             className={`p-3.5 rounded-xl border text-left transition-all active:scale-98 ${
                               isSelected
-                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/30"
-                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                                ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
                             }`}
                           >
                             <div className="text-xs font-bold">{s.label}</div>
-                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-slate-300" : "text-slate-500"}`}>
                               Basis ab CHF {s.baseMin}.- / Mt.
                             </div>
                           </button>
@@ -926,12 +926,12 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => setBauType(t.id)}
                             className={`p-3.5 rounded-xl border text-left transition-all active:scale-98 ${
                               isSelected
-                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/30"
-                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                                ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-slate-400"
                             }`}
                           >
                             <div className="text-xs font-bold">{t.label}</div>
-                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-slate-300" : "text-slate-500"}`}>
                               {t.desc}
                             </div>
                           </button>
@@ -1020,7 +1020,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                 <button
                   type="button"
                   onClick={() => setStep(3)}
-                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-cyan-600 text-white font-bold text-sm shadow-md transition-colors active:scale-98"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-colors active:scale-98"
                 >
                   <span>Weiter zu Ort & Termin</span>
                   <ArrowRight className="w-4 h-4" />
@@ -1074,7 +1074,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                           setZip(pz);
                           setCity(ci.join(" "));
                         }}
-                        className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-cyan-50 text-slate-600 hover:text-cyan-700 transition-colors border border-slate-200/80"
+                        className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors border border-slate-200/80"
                       >
                         {pill}
                       </button>
@@ -1144,7 +1144,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                 <button
                   type="button"
                   onClick={() => setStep(4)}
-                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-cyan-600 text-white font-bold text-sm shadow-md transition-colors active:scale-98"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-colors active:scale-98"
                 >
                   <span>Weiter zu Schritt 4 (Kontakt)</span>
                   <ArrowRight className="w-4 h-4" />
@@ -1199,7 +1199,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                     <label htmlFor="estimator-email" className="text-xs font-bold text-slate-900 uppercase tracking-wide">
                       E-Mail-Adresse
                     </label>
-                    <span className="text-[10px] text-cyan-700 font-semibold">Für detailliertes Angebot</span>
+                    <span className="text-[10px] text-slate-500 font-semibold">Für detailliertes Angebot</span>
                   </div>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -1363,13 +1363,13 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                   href={`tel:${SITE_CONFIG.contact.phone}`}
                   className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow transition-colors active:scale-98"
                 >
-                  <Phone className="w-4 h-4 text-cyan-400" />
+                  <Phone className="w-4 h-4 text-slate-300" />
                   <span>{SITE_CONFIG.contact.phoneDisplay}</span>
                 </a>
               </div>
 
               <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
-                <Clock className="w-3.5 h-3.5 text-cyan-600" />
+                <Clock className="w-3.5 h-3.5 text-slate-700" />
                 <span>Unser Berner Familienbetrieb meldet sich werktags innerhalb von 2 Stunden bei Ihnen.</span>
               </div>
 

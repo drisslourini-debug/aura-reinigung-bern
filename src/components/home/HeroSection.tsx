@@ -73,7 +73,7 @@ export function HeroSection() {
                 href="#rechner"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm sm:text-base shadow-sm transition-all duration-150 active:scale-98"
               >
-                <Calculator className="w-4 h-4 text-cyan-400" />
+                <Calculator className="w-4 h-4 text-white" />
                 <span>Fixpreis online berechnen</span>
                 <ArrowRight className="w-4 h-4 ml-1" />
               </Link>

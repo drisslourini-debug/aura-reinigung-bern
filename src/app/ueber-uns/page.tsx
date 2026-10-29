@@ -1,35 +1,27 @@
 import React from "react";
-import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, Award, Users, ArrowRight, CheckCircle2 } from "lucide-react";
+import { CheckCircle2, ShieldCheck, Users, Award, ArrowRight } from "lucide-react";
 import { SITE_CONFIG } from "@/config/site.config";
 
-export const metadata: Metadata = {
-  title: "Über uns | AURA Clean Bern – Der Schweizer Familienbetrieb",
-  description: "Lernen Sie die Geschichte und Werte von AURA Clean Bern kennen. Geschwisterbetrieb mit Fokus auf Schweizer Qualität, Vertrauen und faire GAV-Arbeitsbedingungen.",
-  alternates: {
-    canonical: "/ueber-uns",
-  },
-  openGraph: {
-    title: "Über uns | AURA Clean Bern – Schweizer Familienbetrieb",
-    description: "Geschwisterbetrieb in Bern mit Handschlagqualität, GAV-Anstellung und 100% Abnahmegarantie.",
-    url: "https://aura-reinigung-bern.vercel.app/ueber-uns",
-    images: [{ url: "/images/team-founders.jpg", width: 1200, height: 630, alt: "Gründerteam AURA Clean Bern" }],
-  },
+export const metadata = {
+  title: "Über uns | AURA Clean Bern – Geschwisterbetrieb",
+  description:
+    "Lernen Sie das Gründerteam von AURA Clean Bern kennen: Lokaler Schweizer Familienbetrieb, GAV-konform, faire Löhne und persönliche Begleitung bei der Wohnungsabgabe.",
 };
 
 export default function UeberUnsPage() {
   return (
-    <div className="pt-32 pb-24 bg-ambient-glow min-h-screen">
+    <div className="pt-32 pb-24 bg-slate-50 min-h-screen">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Intro */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-semibold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-slate-200 text-slate-800 text-xs font-semibold uppercase tracking-wider shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-red-600 inline-block" />
             <span>Familienbetrieb Bern</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 leading-tight">
             Persönlich. Gründlich. Verlässlich.
           </h1>
 
@@ -43,8 +35,8 @@ export default function UeberUnsPage() {
         {/* Team Founders Portrait & Story Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-5 relative">
-            <div className="glass-panel p-3 rounded-3xl overflow-hidden border border-slate-200 shadow-xl">
-              <div className="relative h-[420px] w-full rounded-2xl overflow-hidden">
+            <div className="bg-white p-3 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+              <div className="relative h-[420px] w-full rounded-xl overflow-hidden">
                 <Image
                   src="/images/team-founders.jpg"
                   alt="Geschwister-Gründerteam von AURA Clean Bern"
@@ -54,16 +46,16 @@ export default function UeberUnsPage() {
                   sizes="(max-width: 1024px) 100vw, 40vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 text-white p-3 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/10">
-                  <div className="text-xs font-bold">Die Gründer von AURA Clean</div>
-                  <div className="text-[11px] text-cyan-300">Geschwisterbetrieb Bern • Persönlich vor Ort</div>
+                <div className="absolute bottom-4 left-4 right-4 text-white p-3.5 rounded-xl bg-slate-900/90 backdrop-blur-md border border-white/10">
+                  <div className="text-xs font-bold">Die Gründer von AURA Clean Bern</div>
+                  <div className="text-[11px] text-slate-300">Geschwisterbetrieb Bern • Persönlich vor Ort</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-7 glass-panel p-8 sm:p-10 rounded-3xl border border-slate-200/80 space-y-6">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Unsere Geschichte & Mission
             </h2>
             <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed">
@@ -81,8 +73,8 @@ export default function UeberUnsPage() {
               </p>
             </div>
 
-            <div className="pt-2 border-t border-slate-100 flex items-center gap-2 text-xs font-semibold text-emerald-700">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+            <div className="pt-3 border-t border-slate-100 flex items-center gap-2 text-xs font-semibold text-emerald-800">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>GAV-angemeldetes Team & Schweizer Qualitätsstandard</span>
             </div>
           </div>
@@ -90,8 +82,8 @@ export default function UeberUnsPage() {
 
         {/* Core Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="glass-panel p-6 rounded-2xl border border-slate-200/80 space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-900 flex items-center justify-center">
               <Award className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-slate-900">Schweizer Präzision</h3>
@@ -101,8 +93,8 @@ export default function UeberUnsPage() {
             </p>
           </div>
 
-          <div className="glass-panel p-6 rounded-2xl border border-slate-200/80 space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
               <Users className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-slate-900">Faire Schweizer Löhne</h3>
@@ -112,9 +104,9 @@ export default function UeberUnsPage() {
             </p>
           </div>
 
-          <div className="glass-panel p-6 rounded-2xl border border-slate-200/80 space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-              <ShieldCheck className="w-5 h-5" />
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-900 flex items-center justify-center">
+              <ShieldCheck className="w-5 h-5 text-slate-900" />
             </div>
             <h3 className="text-lg font-bold text-slate-900">Volle Sicherheit</h3>
             <p className="text-xs text-slate-600 leading-relaxed">
@@ -128,7 +120,7 @@ export default function UeberUnsPage() {
         <div className="text-center pt-8">
           <Link
             href="/offerte-anfragen"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-slate-900 hover:bg-cyan-600 text-white font-bold text-sm shadow-md transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-colors active:scale-98"
           >
             <span>Jetzt unverbindliche Offerte starten</span>
             <ArrowRight className="w-4 h-4" />

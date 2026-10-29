@@ -12,13 +12,13 @@ export const metadata: Metadata = {
 
 export default function DatenschutzPage() {
   return (
-    <div className="pt-32 pb-24 bg-ambient-glow min-h-screen">
+    <div className="pt-32 pb-24 bg-slate-50 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
           Datenschutzerklärung
         </h1>
 
-        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-slate-200/80 space-y-6 text-sm text-slate-700 leading-relaxed">
+        <div className="bg-white p-8 sm:p-12 rounded-2xl border border-slate-200 shadow-sm space-y-6 text-sm text-slate-700 leading-relaxed">
           <p className="text-xs text-slate-400">
             Stand: {new Date().toLocaleDateString("de-CH")} – Konform gemäss Schweizer Datenschutzgesetz (revDSG).
           </p>
