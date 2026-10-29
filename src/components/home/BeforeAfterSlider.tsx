@@ -1,20 +1,21 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { Sparkles } from "lucide-react";
+import React, { useState, useRef, useCallback } from "react";
+import Image from "next/image";
+import { Sparkles, AlertCircle, CheckCircle2 } from "lucide-react";
 
 export function BeforeAfterSlider() {
   const [sliderPosition, setSliderPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isDragging = useRef(false);
 
-  const handleMove = (clientX: number) => {
+  const handleMove = useCallback((clientX: number) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
     const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
     setSliderPosition(percentage);
-  };
+  }, []);
 
   const handleTouchMove = (e: React.TouchEvent) => {
     handleMove(e.touches[0].clientX);
@@ -34,17 +35,21 @@ export function BeforeAfterSlider() {
   };
 
   return (
-    <section className="py-20 relative bg-slate-900 text-white overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 relative bg-slate-950 text-white overflow-hidden">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-cyan-300 text-xs font-semibold uppercase tracking-wider mb-4">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Show, Don't Tell</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
             Der AURA Vorher / Nachher Unterschied
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-slate-300">
+          <p className="mt-4 text-sm sm:text-base text-slate-300">
             Ziehen Sie den Regler, um die mikroskopische Tiefenreinigung im Detail zu vergleichen.
           </p>
         </div>
@@ -57,52 +62,100 @@ export function BeforeAfterSlider() {
           onMouseLeave={handleMouseUp}
           onMouseMove={handleMouseMove}
           onTouchMove={handleTouchMove}
-          className="relative h-[380px] sm:h-[480px] w-full rounded-3xl overflow-hidden cursor-ew-resize select-none border border-white/10 shadow-2xl"
+          className="relative h-[380px] sm:h-[500px] w-full rounded-3xl overflow-hidden cursor-ew-resize select-none border border-white/15 shadow-2xl shadow-cyan-950/40"
         >
-          {/* After Surface (Right Side) - Gleaming Pure Surface */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900 to-cyan-950 flex flex-col items-end justify-between p-8 sm:p-12">
-            <div className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Nach AURA Clean: Spiegelnder Hochglanz & Entkalkt</span>
+          {/* Layer 1: After Image (Full width background) */}
+          <div className="absolute inset-0">
+            <Image
+              src="/images/after-clean.jpg"
+              alt="Nach der AURA Tiefenreinigung: Spiegelglanz, kalkfrei und 100% sauber"
+              fill
+              priority
+              className="object-cover object-center pointer-events-none"
+              sizes="(max-width: 1024px) 100vw, 1000px"
+            />
+            {/* Dark gradient vignette overlay on bottom for readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/30 pointer-events-none" />
+
+            {/* After Badges */}
+            <div className="absolute top-6 right-6 z-10 pointer-events-none">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/90 text-white backdrop-blur-md text-xs font-bold shadow-lg border border-emerald-400/50">
+                <CheckCircle2 className="w-4 h-4 text-white" />
+                <span>Nach AURA Clean: Spiegelglanz & Entkalkt</span>
+              </span>
             </div>
 
-            <div className="text-right max-w-xs space-y-2">
-              <div className="text-2xl font-black text-white tracking-tight">
+            <div className="absolute bottom-6 right-6 text-right max-w-xs z-10 pointer-events-none">
+              <div className="text-xl sm:text-2xl font-black text-white tracking-tight drop-shadow-md">
                 100% Bereit zur Abnahme
               </div>
-              <p className="text-xs text-slate-400">
-                Porentief entfettete Dunstabzugshauben, kalkfreie Armaturen und staubfreie Lüftungen.
+              <p className="text-xs text-slate-200 mt-1 drop-shadow">
+                Porentief entfettete Oberflächen, entkalkte Armaturen und staubfreie Simse.
               </p>
             </div>
           </div>
 
-          {/* Before Surface (Left Side - Clipped) */}
+          {/* Layer 2: Before Image (Clipped dynamically by slider position) */}
           <div
-            className="absolute inset-0 bg-gradient-to-tr from-amber-950/80 via-slate-900 to-slate-950 flex flex-col items-start justify-between p-8 sm:p-12 overflow-hidden border-r border-white/40"
-            style={{ width: `${sliderPosition}%` }}
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
+              WebkitClipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
+            }}
           >
-            <div className="bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap">
-              <span>Vorher: Hartnäckiger Kalk & Eingebranntes</span>
+            <Image
+              src="/images/before-clean.jpg"
+              alt="Vor der Reinigung: Hartnäckiger Kalk, Fettspuren und Wasserflecken"
+              fill
+              priority
+              className="object-cover object-center pointer-events-none"
+              sizes="(max-width: 1024px) 100vw, 1000px"
+            />
+            {/* Warm dark gradient vignette overlay on bottom for readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/30 pointer-events-none" />
+
+            {/* Before Badges */}
+            <div className="absolute top-6 left-6 z-10 pointer-events-none">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-600/90 text-white backdrop-blur-md text-xs font-bold shadow-lg border border-amber-400/50">
+                <AlertCircle className="w-4 h-4 text-white" />
+                <span>Vorher: Hartnäckiger Kalk & Eingebranntes</span>
+              </span>
             </div>
 
-            <div className="text-left max-w-xs space-y-2 whitespace-nowrap">
-              <div className="text-2xl font-black text-amber-200 tracking-tight">
+            <div className="absolute bottom-6 left-6 text-left max-w-xs z-10 pointer-events-none">
+              <div className="text-xl sm:text-2xl font-black text-amber-200 tracking-tight drop-shadow-md">
                 Typische Beanstandungen
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-200 mt-1 drop-shadow">
                 Fettfilme im Backofen, Grauschleier auf Fliesen und Schmutz in den Fensterfalzen.
               </p>
             </div>
           </div>
 
-          {/* Slider Divider Bar & Handle */}
+          {/* Slider Divider Bar & Tactile Drag Handle */}
           <div
-            className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize shadow-[0_0_15px_rgba(0,210,255,0.8)]"
+            className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize shadow-[0_0_20px_rgba(0,210,255,1)]"
             style={{ left: `${sliderPosition}%` }}
           >
-            <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white text-slate-950 shadow-xl flex items-center justify-center font-bold text-xs border-2 border-cyan-400">
+            <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-11 rounded-full bg-white text-slate-950 shadow-2xl flex items-center justify-center font-bold text-sm border-2 border-cyan-400 transition-transform active:scale-110 hover:scale-105">
               ↔
             </div>
+          </div>
+        </div>
+
+        {/* Feature comparison pills below slider */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs">
+            <span className="text-cyan-400 font-bold block mb-1">Armaturen & Sanitär</span>
+            <span className="text-slate-400">Porentiefe Entkalkung ohne aggressive Säureschäden</span>
+          </div>
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs">
+            <span className="text-emerald-400 font-bold block mb-1">Backofen & Steamer</span>
+            <span className="text-slate-400">Schonende Fett- und Einbrandlösung mit Profidampf</span>
+          </div>
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs">
+            <span className="text-cyan-400 font-bold block mb-1">Fenster & Lamellen</span>
+            <span className="text-slate-400">Streifenfreies Reinwasser für makellose Durchsicht</span>
           </div>
         </div>
       </div>
