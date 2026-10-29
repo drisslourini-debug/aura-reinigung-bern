@@ -6,6 +6,7 @@ export interface ServiceItem {
   shortDescription: string;
   badge: string;
   icon: string;
+  image: string;
   popular?: boolean;
   heroImageDesc: string;
   usps: string[];
@@ -28,6 +29,7 @@ export const SERVICES: ServiceItem[] = [
     category: "Privatkunden",
     badge: "100% Abnahmegarantie",
     icon: "Sparkles",
+    image: "/images/service-umzug.jpg",
     popular: true,
     heroImageDesc: "Makellose moderne Schweizer Küche mit spiegelnden Oberflächen und glänzenden Chromstahlarmaturen",
     shortDescription: "Komplette Endreinigung inkl. Küche, Nasszellen, Fenster, Storen und persönlicher Anwesenheit bei der Wohnungsübergabe.",
@@ -102,6 +104,7 @@ export const SERVICES: ServiceItem[] = [
     category: "Privatkunden",
     badge: "Flexible Abos",
     icon: "Home",
+    image: "/images/service-unterhalt.jpg",
     heroImageDesc: "Heller, moderner Wohnraum mit makellosem Holzboden und sonnendurchfluteter Atmosphäre",
     shortDescription: "Wöchentliche oder 14-tägliche Unterhaltspflege durch dieselbe feste, vertrauenswürdige Reinigungskraft.",
     usps: [
@@ -142,6 +145,7 @@ export const SERVICES: ServiceItem[] = [
     category: "Liegenschaften",
     badge: "Für Verwaltungen & STWEG",
     icon: "Building2",
+    image: "/images/service-hauswartung.jpg",
     popular: true,
     heroImageDesc: "Architektonisch elegantes Treppenhaus in Bern mit gepflegtem Terrazzoboden und modernem Licht",
     shortDescription: "Treppenhausreinigung, Waschküchenhygiene, Umgebungsarbeiten, Containerdienst und technische Kontrollgänge.",
@@ -197,6 +201,7 @@ export const SERVICES: ServiceItem[] = [
     category: "Privatkunden",
     badge: "Reinwasser-Technik",
     icon: "Sun",
+    image: "/images/service-fenster.jpg",
     heroImageDesc: "Bodentiefe Fensterfront mit strahlendem Blick auf die Berner Alpen",
     shortDescription: "Streifenfreie Reinigung von Fenstern, Rahmen, Wintergärten und Lamellenstoren für Privat & Gewerbe.",
     usps: [
@@ -238,6 +243,7 @@ export const SERVICES: ServiceItem[] = [
     category: "Gewerbe",
     badge: "Zertifizierte Hygiene",
     icon: "Briefcase",
+    image: "/images/service-gewerbe.jpg",
     heroImageDesc: "Moderner, minimalistischer Berner Büroraum mit designorientierten Arbeitsplätzen",
     shortDescription: "Regelmässige Unterhaltsreinigung von Kanzleien, Praxen, Agenturen und Gewerbeflächen ausserhalb der Bürozeiten.",
     usps: [
@@ -280,6 +286,7 @@ export const SERVICES: ServiceItem[] = [
     category: "Liegenschaften",
     badge: "Tiefenreinigung",
     icon: "Wrench",
+    image: "/images/service-baureinigung.jpg",
     heroImageDesc: "Frisch renovierte Designer-Wohnung nach bezugsfertiger Baufeinreinigung",
     shortDescription: "Baugrobreinigung, Baufeinreinigung, Teppich-Sprühextraktion und Hochdruckreinigung von Aussenflächen.",
     usps: [

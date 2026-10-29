@@ -1,7 +1,8 @@
 import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ShieldCheck, HeartHandshake, Award, Users, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { ShieldCheck, Award, Users, ArrowRight, CheckCircle2 } from "lucide-react";
 import { SITE_CONFIG } from "@/config/site.config";
 
 export const metadata: Metadata = {
@@ -30,24 +31,51 @@ export default function UeberUnsPage() {
           </p>
         </div>
 
-        {/* Story Section */}
-        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-slate-200/80 space-y-6">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Unsere Geschichte & Mission
-          </h2>
-          <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed">
-            <p>
-              In der Reinigungsbranche dominieren oft anonyme Vermittlungsplattformen,
-              ständiger Personalwechsel und undurchsichtige Preismodelle. Wir wollten
-              beweisen, dass es anders geht: mit persönlicher Ansprechbarkeit,
-              hochwertigem Schweizer Standard und einer 100% verlässlichen Abnahmegarantie.
-            </p>
-            <p>
-              Als Geschwister teilen wir dieselben Werte: Sorgfalt, Diskretion und Respekt vor
-              dem Eigentum unserer Kundinnen und Kunden. Egal ob es sich um eine charmante
-              Altbauwohnung im Berner Kirchenfeld, ein Einfamilienhaus in Muri oder ein
-              ganzes Mehrfamilienhaus in Köniz handelt – wir behandeln jedes Objekt, als wäre es unser eigenes.
-            </p>
+        {/* Team Founders Portrait & Story Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-5 relative">
+            <div className="glass-panel p-3 rounded-3xl overflow-hidden border border-slate-200 shadow-xl">
+              <div className="relative h-[420px] w-full rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/team-founders.jpg"
+                  alt="Geschwister-Gründerteam von AURA Clean Bern"
+                  fill
+                  priority
+                  className="object-cover object-top"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white p-3 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/10">
+                  <div className="text-xs font-bold">Die Gründer von AURA Clean</div>
+                  <div className="text-[11px] text-cyan-300">Geschwisterbetrieb Bern • Persönlich vor Ort</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7 glass-panel p-8 sm:p-10 rounded-3xl border border-slate-200/80 space-y-6">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Unsere Geschichte & Mission
+            </h2>
+            <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed">
+              <p>
+                In der Reinigungsbranche dominieren oft anonyme Vermittlungsplattformen,
+                ständiger Personalwechsel und undurchsichtige Preismodelle. Wir wollten
+                beweisen, dass es anders geht: mit persönlicher Ansprechbarkeit,
+                hochwertigem Schweizer Standard und einer 100% verlässlichen Abnahmegarantie.
+              </p>
+              <p>
+                Als Geschwister teilen wir dieselben Werte: Sorgfalt, Diskretion und Respekt vor
+                dem Eigentum unserer Kundinnen und Kunden. Egal ob es sich um eine charmante
+                Altbauwohnung im Berner Kirchenfeld, ein Einfamilienhaus in Muri oder ein
+                ganzes Mehrfamilienhaus in Köniz handelt – wir behandeln jedes Objekt, als wäre es unser eigenes.
+              </p>
+            </div>
+
+            <div className="pt-2 border-t border-slate-100 flex items-center gap-2 text-xs font-semibold text-emerald-700">
+              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+              <span>GAV-angemeldetes Team & Schweizer Qualitätsstandard</span>
+            </div>
           </div>
         </div>
 

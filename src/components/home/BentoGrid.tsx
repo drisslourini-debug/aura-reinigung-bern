@@ -2,13 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Sparkles,
   Building2,
   Sun,
   Briefcase,
   Home,
-  Wrench,
   ShieldCheck,
   ArrowUpRight,
   CheckCircle,
@@ -29,59 +29,71 @@ export function BentoGrid() {
             Präzision für jedes Objekt.
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-600">
-            Von der minutiösen Endreinigung mit Begleitung bis zur ganzheitlichen
-            Hauswartung für anspruchsvolle Liegenschaften.
+            Von der minutiösen Endreinigung mit persönlicher Übergabebegleitung bis
+            zur ganzheitlichen Hauswartung für anspruchsvolle Liegenschaften.
           </p>
         </div>
 
         {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card 1: Main Highlight - Umzugsreinigung (Spans 2 cols on lg) */}
-          <div className="lg:col-span-2 glass-panel rounded-3xl p-8 sm:p-10 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-cyan-100/60 via-emerald-50/30 to-transparent rounded-full blur-3xl -z-10 group-hover:scale-110 transition-transform duration-500" />
-
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/80 text-xs font-bold">
-                <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                100% Abnahmegarantie
-              </span>
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                Flaggschiff-Service
-              </span>
+          <div className="lg:col-span-2 glass-panel rounded-3xl p-8 sm:p-10 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
+            {/* Background luxury photo with gradient wash */}
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <Image
+                src="/images/service-umzug.jpg"
+                alt="Umzugsreinigung Bern mit 100% Abnahmegarantie"
+                fill
+                className="object-cover object-center opacity-25 group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 66vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/85 to-white/60" />
             </div>
 
-            <div className="max-w-xl">
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Umzugsreinigung mit persönlicher Übergabebegleitung
-              </h3>
-              <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-                Wir stehen während der Wohnungsabnahme physisch neben der Verwaltung.
-                Sollte die Verwaltung auch nur ein Staubkorn beanstanden, reinigen wir
-                sofort vor Ort kostenlos nach – bis das Protokoll unterschrieben ist.
-              </p>
+            <div>
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/80 text-xs font-bold">
+                  <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                  100% Abnahmegarantie
+                </span>
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  Flaggschiff-Service
+                </span>
+              </div>
+
+              <div className="max-w-xl">
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                  Umzugsreinigung mit persönlicher Übergabebegleitung
+                </h3>
+                <p className="mt-3 text-slate-700 text-sm sm:text-base leading-relaxed">
+                  Wir stehen während der Wohnungsabnahme physisch neben der Verwaltung.
+                  Sollte die Verwaltung auch nur ein Staubkorn beanstanden, reinigen wir
+                  sofort vor Ort kostenlos nach – bis das Protokoll unterschrieben ist.
+                </p>
+              </div>
+
+              {/* Feature Bullets */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-8 pt-6 border-t border-slate-200/70">
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-800 font-medium">
+                  <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Küche inkl. Backofen, Steamer & Dunstabzug</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-800 font-medium">
+                  <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Nasszellen-Tiefenentkalkung & Fugen</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-800 font-medium">
+                  <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Fenster, Rahmen & Lamellenstoren</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-800 font-medium">
+                  <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Keller, Estrich & Balkon inklusive</span>
+                </div>
+              </div>
             </div>
 
-            {/* Feature Bullets */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-8 pt-6 border-t border-slate-200/70">
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
-                <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Küche inkl. Backofen, Steamer & Dunstabzug</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
-                <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Nasszellen-Tiefenentkalkung & Fugen</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
-                <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Fenster, Rahmen & Lamellenstoren</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 font-medium">
-                <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Keller, Estrich & Balkon inklusive</span>
-              </div>
-            </div>
-
-            <div className="mt-8 flex items-center justify-between">
+            <div className="mt-8 flex items-center justify-between pt-4 border-t border-slate-200/50">
               <Link
                 href="/dienstleistungen/umzugsreinigung"
                 className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 hover:text-cyan-600 transition-colors"
@@ -91,7 +103,7 @@ export function BentoGrid() {
               </Link>
               <Link
                 href="/offerte-anfragen?service=umzug"
-                className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-cyan-600 transition-colors"
+                className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-cyan-600 transition-colors shadow-sm"
               >
                 Offerte kalkulieren
               </Link>
@@ -99,8 +111,18 @@ export function BentoGrid() {
           </div>
 
           {/* Card 2: Hauswartung & Liegenschaften */}
-          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-100/40 rounded-full blur-2xl -z-10" />
+          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[380px]">
+            {/* Background image */}
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <Image
+                src="/images/service-hauswartung.jpg"
+                alt="Liegenschaftsservice und Hauswartung Bern"
+                fill
+                className="object-cover object-center opacity-25 group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/85 to-white/60" />
+            </div>
 
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -115,12 +137,12 @@ export function BentoGrid() {
               <h3 className="text-xl font-bold text-slate-900 tracking-tight">
                 Liegenschaftsservice & Hauswartung
               </h3>
-              <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
                 Treppenhäuser, Waschküchenhygiene, Umgebungsarbeiten und technische
                 Kontrollen für Berner Verwaltungen und Stockwerkeigentümer.
               </p>
 
-              <ul className="mt-4 space-y-2 text-xs text-slate-700">
+              <ul className="mt-4 space-y-2 text-xs text-slate-800">
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
                   <span>Wöchentlicher / 14-täglicher Turnus</span>
@@ -148,7 +170,18 @@ export function BentoGrid() {
           </div>
 
           {/* Card 3: Unterhaltsreinigung */}
-          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between">
+          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[340px]">
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <Image
+                src="/images/service-unterhalt.jpg"
+                alt="Unterhaltsreinigung Wohnungen Bern"
+                fill
+                className="object-cover object-center opacity-25 group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/85 to-white/60" />
+            </div>
+
             <div>
               <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center mb-4">
                 <Home className="w-5 h-5" />
@@ -156,7 +189,7 @@ export function BentoGrid() {
               <h3 className="text-xl font-bold text-slate-900 tracking-tight">
                 Unterhaltsreinigung
               </h3>
-              <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
                 Regelmässige Sauberkeit für Ihre Privatwohnung. Feste, vertraute
                 Reinigungskraft mit GAV-Anstellung und versichertem Schlüsselservice.
               </p>
@@ -174,7 +207,18 @@ export function BentoGrid() {
           </div>
 
           {/* Card 4: Fenster & Storen */}
-          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between">
+          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[340px]">
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <Image
+                src="/images/service-fenster.jpg"
+                alt="Fenster- und Storenreinigung Bern"
+                fill
+                className="object-cover object-center opacity-25 group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/85 to-white/60" />
+            </div>
+
             <div>
               <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center mb-4">
                 <Sun className="w-5 h-5" />
@@ -182,7 +226,7 @@ export function BentoGrid() {
               <h3 className="text-xl font-bold text-slate-900 tracking-tight">
                 Fenster- & Storenreinigung
               </h3>
-              <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
                 Streifenfreie Sicht durch modernes Reinwasser-Osmosesystem. Inklusive
                 Rahmenfalze, Simse und Lamellenstoren bis in hohe Stockwerke.
               </p>
@@ -200,7 +244,18 @@ export function BentoGrid() {
           </div>
 
           {/* Card 5: Büro & Gewerbe */}
-          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between">
+          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[340px]">
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <Image
+                src="/images/service-gewerbe.jpg"
+                alt="Büro- und Praxisreinigung Bern"
+                fill
+                className="object-cover object-center opacity-25 group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/85 to-white/60" />
+            </div>
+
             <div>
               <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center mb-4">
                 <Briefcase className="w-5 h-5 text-emerald-400" />
@@ -208,7 +263,7 @@ export function BentoGrid() {
               <h3 className="text-xl font-bold text-slate-900 tracking-tight">
                 Büro- & Praxisreinigung
               </h3>
-              <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
                 Repräsentative Sauberkeit und Desinfektion für Kanzleien, Praxen und
                 Büros in Bern. Durchführung ausserhalb Ihrer Geschäftszeiten.
               </p>

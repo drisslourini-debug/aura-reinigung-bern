@@ -2,7 +2,8 @@ import React from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { SERVICES, ServiceItem } from "@/config/services.config";
+import Image from "next/image";
+import { SERVICES } from "@/config/services.config";
 import { SITE_CONFIG } from "@/config/site.config";
 import {
   ShieldCheck,
@@ -84,6 +85,35 @@ export default async function ServiceDetailPage({ params }: Props) {
               <Phone className="w-4 h-4 text-cyan-600" />
               <span>{SITE_CONFIG.contact.phoneDisplay}</span>
             </a>
+          </div>
+        </div>
+
+        {/* High-Resolution Hero Visual Showcase */}
+        <div className="glass-panel p-3 rounded-3xl overflow-hidden border border-slate-200/80 shadow-2xl">
+          <div className="relative h-[320px] sm:h-[460px] w-full rounded-2xl overflow-hidden shadow-inner">
+            <Image
+              src={service.image}
+              alt={service.heroImageDesc}
+              fill
+              priority
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 100vw, 80vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white">
+              <div>
+                <span className="text-xs uppercase tracking-wider text-cyan-300 font-bold">
+                  {service.category}
+                </span>
+                <div className="text-lg sm:text-xl font-bold">
+                  {service.title}
+                </div>
+              </div>
+              <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-xs font-semibold border border-white/30">
+                <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
+                <span>Schweizer Qualitätsstandard</span>
+              </div>
+            </div>
           </div>
         </div>
 
