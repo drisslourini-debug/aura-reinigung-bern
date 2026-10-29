@@ -124,8 +124,10 @@ export function Header() {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-xl text-slate-800 bg-slate-100/80 active:scale-95 transition-transform border border-slate-200"
+              className="p-2.5 rounded-xl text-slate-800 bg-slate-100/80 active:scale-95 transition-transform border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
               aria-label={mobileMenuOpen ? "Menü schliessen" : "Menü öffnen"}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation-drawer"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -135,7 +137,13 @@ export function Header() {
 
       {/* Fullscreen Mobile Navigation Sheet */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[60px] sm:top-[68px] z-50 bg-slate-950/40 backdrop-blur-md animate-in fade-in duration-200">
+        <div
+          id="mobile-navigation-drawer"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation"
+          className="lg:hidden fixed inset-0 top-[60px] sm:top-[68px] z-50 bg-slate-950/40 backdrop-blur-md animate-in fade-in duration-200"
+        >
           <div className="bg-white/95 backdrop-blur-2xl border-b border-slate-200/80 max-h-[calc(100vh-60px)] overflow-y-auto px-5 pt-4 pb-12 shadow-2xl space-y-5">
             {/* Direct Contact Bar */}
             <div className="grid grid-cols-2 gap-2 pt-1">

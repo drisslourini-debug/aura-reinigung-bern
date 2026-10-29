@@ -1041,12 +1041,13 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Location */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-1.5">
+                  <label htmlFor="estimator-location" className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-1.5">
                     Postleitzahl & Ort
                   </label>
                   <div className="relative">
                     <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
+                      id="estimator-location"
                       type="text"
                       value={`${zip} ${city}`}
                       onChange={(e) => {
@@ -1080,12 +1081,13 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
 
                 {/* Desired Date */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-1.5">
+                  <label htmlFor="estimator-date" className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-1.5">
                     Wunschtermin / Zügeltermin
                   </label>
                   <div className="relative">
                     <Calendar className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
+                      id="estimator-date"
                       type="date"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
@@ -1165,19 +1167,20 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
               </div>
 
               {errorMsg && (
-                <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
+                <div role="alert" aria-live="polite" className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
                   {errorMsg}
                 </div>
               )}
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-1.5">
+                  <label htmlFor="estimator-name" className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-1.5">
                     Vor- & Nachname <span className="text-slate-400 font-normal">(optional)</span>
                   </label>
                   <div className="relative">
                     <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
+                      id="estimator-name"
                       type="text"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
@@ -1190,7 +1193,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
 
                 <div>
                   <div className="flex justify-between items-center mb-1.5">
-                    <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+                    <label htmlFor="estimator-email" className="text-xs font-bold text-slate-900 uppercase tracking-wide">
                       E-Mail-Adresse
                     </label>
                     <span className="text-[10px] text-cyan-700 font-semibold">Für detailliertes Angebot</span>
@@ -1198,6 +1201,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                   <div className="relative">
                     <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
+                      id="estimator-email"
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -1210,7 +1214,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
 
                 <div>
                   <div className="flex justify-between items-center mb-1.5">
-                    <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+                    <label htmlFor="estimator-phone" className="text-xs font-bold text-slate-900 uppercase tracking-wide">
                       Telefonnummer / Mobile
                     </label>
                     <span className="text-[10px] text-emerald-700 font-semibold">Für WhatsApp / Rückfrage</span>
@@ -1218,6 +1222,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                   <div className="relative">
                     <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
+                      id="estimator-phone"
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}

@@ -14,6 +14,8 @@ const routes = [
   "/kontakt",
   "/impressum",
   "/datenschutz",
+  "/sitemap.xml",
+  "/robots.txt",
   "/favicon.svg",
   "/images/logo-badge-3d.jpg",
   "/images/og-image.jpg",

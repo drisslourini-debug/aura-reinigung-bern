@@ -5,6 +5,9 @@ import { SITE_CONFIG } from "@/config/site.config";
 export const metadata: Metadata = {
   title: "Impressum | AURA Clean Bern",
   description: "Rechtliche Pflichtangaben und Impressum von AURA Clean Bern nach Schweizer Recht.",
+  alternates: {
+    canonical: "/impressum",
+  },
 };
 
 export default function ImpressumPage() {

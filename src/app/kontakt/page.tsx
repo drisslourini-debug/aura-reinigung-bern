@@ -5,7 +5,16 @@ import { SITE_CONFIG } from "@/config/site.config";
 
 export const metadata: Metadata = {
   title: "Kontakt & Einsatzgebiet Bern | AURA Clean Bern",
-  description: "Kontaktieren Sie AURA Clean Bern für kostenlose Offerten, Notfallreinigungen oder Besichtigungstermine im Grossraum Bern.",
+  description: "Kontaktieren Sie AURA Clean Bern für kostenlose Offerten, Notfallreinigungen oder Besichtigungstermine im Grossraum Bern. Telefon, WhatsApp & E-Mail.",
+  alternates: {
+    canonical: "/kontakt",
+  },
+  openGraph: {
+    title: "Kontakt & Einsatzgebiet Bern | AURA Clean Bern",
+    description: "Direkter Kontakt zu AURA Clean Bern. Telefonisch erreichbar Mo-Sa von 07:00 - 19:00 Uhr.",
+    url: "https://aura-reinigung-bern.vercel.app/kontakt",
+    images: [{ url: "/images/og-image.jpg", width: 1200, height: 630, alt: "AURA Clean Bern Kontakt" }],
+  },
 };
 
 export default function KontaktPage() {

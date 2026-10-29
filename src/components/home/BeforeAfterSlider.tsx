@@ -145,7 +145,20 @@ export function BeforeAfterSlider() {
             style={{ left: `${sliderPosition}%` }}
           >
             <div
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white text-slate-950 shadow-2xl flex items-center justify-center font-bold text-xs sm:text-sm border-2 border-cyan-400 transition-transform active:scale-110"
+              role="slider"
+              tabIndex={0}
+              aria-label="Vergleichsregler Vorher und Nachher"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(sliderPosition)}
+              onKeyDown={(e) => {
+                if (e.key === "ArrowLeft") {
+                  setSliderPosition((prev) => Math.max(0, prev - 5));
+                } else if (e.key === "ArrowRight") {
+                  setSliderPosition((prev) => Math.min(100, prev + 5));
+                }
+              }}
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white text-slate-950 shadow-2xl flex items-center justify-center font-bold text-xs sm:text-sm border-2 border-cyan-400 transition-transform active:scale-110 focus:outline-none focus:ring-4 focus:ring-cyan-400/50"
               style={{ touchAction: "none" }}
             >
               ↔

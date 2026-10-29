@@ -5,6 +5,9 @@ import { SITE_CONFIG } from "@/config/site.config";
 export const metadata: Metadata = {
   title: "Datenschutzerklärung (revDSG) | AURA Clean Bern",
   description: "Datenschutzerklärung von AURA Clean Bern nach dem Schweizer Bundesgesetz über den Datenschutz (revDSG).",
+  alternates: {
+    canonical: "/datenschutz",
+  },
 };
 
 export default function DatenschutzPage() {

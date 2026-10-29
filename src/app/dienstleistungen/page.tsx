@@ -8,6 +8,15 @@ import { ArrowRight, ShieldCheck, CheckCircle2 } from "lucide-react";
 export const metadata: Metadata = {
   title: "Dienstleistungen & Services | AURA Clean Bern",
   description: "Entdecken Sie unser breites Reinigungsportfolio in Bern: Umzugsreinigungen mit Abnahmegarantie, Unterhaltsreinigungen, Hauswartungen, Fensterreinigung und Bauservice.",
+  alternates: {
+    canonical: "/dienstleistungen",
+  },
+  openGraph: {
+    title: "Dienstleistungen & Services | AURA Clean Bern",
+    description: "Umzugsreinigungen mit Abnahmegarantie, Unterhalt, Hauswartung und Fensterreinigung im Grossraum Bern.",
+    url: "https://aura-reinigung-bern.vercel.app/dienstleistungen",
+    images: [{ url: "/images/service-umzug.jpg", width: 1200, height: 630, alt: "AURA Clean Dienstleistungen" }],
+  },
 };
 
 export default function ServicesPage() {

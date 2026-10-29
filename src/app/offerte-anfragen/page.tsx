@@ -5,7 +5,16 @@ import { ShieldCheck, Clock, CheckCircle } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Offerte anfragen | AURA Clean Bern",
-  description: "Erhalten Sie in wenigen Schritten Ihre transparente Fixpreis-Offerte für Umzugsreinigung, Hauswartung oder Unterhaltsreinigung in Bern.",
+  description: "Erhalten Sie in wenigen Schritten Ihre transparente Fixpreis-Offerte für Umzugsreinigung, Hauswartung oder Unterhaltsreinigung in Bern. Unverbindlich & diskret.",
+  alternates: {
+    canonical: "/offerte-anfragen",
+  },
+  openGraph: {
+    title: "Offerte anfragen | AURA Clean Bern",
+    description: "Online-Rechner & Offerten-Assistent für Reinigungen im Grossraum Bern mit 100% Abnahmegarantie.",
+    url: "https://aura-reinigung-bern.vercel.app/offerte-anfragen",
+    images: [{ url: "/images/og-image.jpg", width: 1200, height: 630, alt: "AURA Clean Offerte anfragen" }],
+  },
 };
 
 export default function OfferteAnfragenPage() {

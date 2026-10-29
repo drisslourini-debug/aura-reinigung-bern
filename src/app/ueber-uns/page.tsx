@@ -7,7 +7,16 @@ import { SITE_CONFIG } from "@/config/site.config";
 
 export const metadata: Metadata = {
   title: "Über uns | AURA Clean Bern – Der Schweizer Familienbetrieb",
-  description: "Lernen Sie die Geschichte und Werte von AURA Clean Bern kennen. Geschwisterbetrieb mit Fokus auf Qualität, Vertrauen und faire Arbeitsbedingungen.",
+  description: "Lernen Sie die Geschichte und Werte von AURA Clean Bern kennen. Geschwisterbetrieb mit Fokus auf Schweizer Qualität, Vertrauen und faire GAV-Arbeitsbedingungen.",
+  alternates: {
+    canonical: "/ueber-uns",
+  },
+  openGraph: {
+    title: "Über uns | AURA Clean Bern – Schweizer Familienbetrieb",
+    description: "Geschwisterbetrieb in Bern mit Handschlagqualität, GAV-Anstellung und 100% Abnahmegarantie.",
+    url: "https://aura-reinigung-bern.vercel.app/ueber-uns",
+    images: [{ url: "/images/team-founders.jpg", width: 1200, height: 630, alt: "Gründerteam AURA Clean Bern" }],
+  },
 };
 
 export default function UeberUnsPage() {
