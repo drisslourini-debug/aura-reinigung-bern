@@ -28,7 +28,7 @@ export function Footer() {
                 <span>{SITE_CONFIG.trust.abnahmegarantie}</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-300">
-                <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-slate-300 shrink-0" />
                 <span>{SITE_CONFIG.trust.insurance}</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-300">
@@ -48,7 +48,7 @@ export function Footer() {
                 <li key={s.slug}>
                   <Link
                     href={`/dienstleistungen/${s.slug}`}
-                    className="text-slate-400 hover:text-cyan-400 transition-colors"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {s.title}
                   </Link>
@@ -60,13 +60,13 @@ export function Footer() {
           {/* Col 3: Einzugsgebiet Bern */}
           <div>
             <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-cyan-400" />
+              <MapPin className="w-4 h-4 text-slate-400" />
               <span>Einsatzgebiet</span>
             </h4>
             <ul className="space-y-1.5 text-xs text-slate-400">
               {SITE_CONFIG.regions.map((reg, idx) => (
                 <li key={idx} className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-500/70 shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-500 shrink-0" />
                   <span>{reg}</span>
                 </li>
               ))}
@@ -81,29 +81,29 @@ export function Footer() {
             <div className="space-y-3 text-sm text-slate-400">
               <a
                 href={`tel:${SITE_CONFIG.contact.phone}`}
-                className="flex items-center gap-2.5 text-white hover:text-cyan-400 transition-colors font-medium"
+                className="flex items-center gap-2.5 text-white hover:text-slate-200 transition-colors font-medium"
               >
-                <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
+                <Phone className="w-4 h-4 text-slate-400 shrink-0" />
                 <span>{SITE_CONFIG.contact.phoneDisplay}</span>
               </a>
 
               <a
                 href={`mailto:${SITE_CONFIG.contact.email}`}
-                className="flex items-center gap-2.5 hover:text-cyan-400 transition-colors"
+                className="flex items-center gap-2.5 hover:text-white transition-colors"
               >
-                <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
+                <Mail className="w-4 h-4 text-slate-400 shrink-0" />
                 <span>{SITE_CONFIG.contact.email}</span>
               </a>
 
               <div className="flex items-start gap-2.5 text-xs text-slate-400 pt-1">
-                <Clock className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                <Clock className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
                 <span>{SITE_CONFIG.contact.hours}</span>
               </div>
 
               <div className="pt-2">
                 <Link
                   href="/offerte-anfragen"
-                  className="inline-block w-full text-center text-xs font-semibold py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-95 shadow-md"
+                  className="inline-block w-full text-center text-xs font-bold py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white transition-colors shadow-sm"
                 >
                   Online Offerte starten
                 </Link>

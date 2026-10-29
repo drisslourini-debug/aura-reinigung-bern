@@ -4,18 +4,23 @@
 
 @layer base {
   :root {
-    --bg-main: #FAFCFF;
-    --card-surface: rgba(255, 255, 255, 0.85);
-    --border-glass: rgba(15, 23, 42, 0.08);
-    --accent-cyan: #00D2FF;
-    --accent-emerald: #10B981;
-    --text-primary: #0F172A;
+    --bg-main: #FBFBFC;
+    --card-surface: #FFFFFF;
+    --border-subtle: #E2E8F0;
+    --border-strong: #CBD5E1;
+    --swiss-navy: #0B1528;
+    --swiss-blue: #0284C7;
+    --swiss-red: #DC2626;
+    --text-primary: #090D16;
     --text-secondary: #475569;
+    --text-muted: #64748B;
   }
 
   html {
     scroll-behavior: smooth;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
@@ -27,39 +32,51 @@
   }
 }
 
-/* Glassmorphism utilities */
+/* Swiss Architectural Card Design (Solid, Tactile, High-Trust) */
+.swiss-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.swiss-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+}
+
+/* Glass panel for navigation & fixed elements */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05), 0 0 1px 1px rgba(226, 232, 240, 0.6);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
 }
 
-.glass-panel-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+/* Swiss Precision Accent Lines */
+.swiss-hairline {
+  height: 1px;
+  background-color: #E2E8F0;
 }
 
-.glass-panel-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 40px -15px rgba(0, 163, 255, 0.12), 0 0 0 1px rgba(0, 210, 255, 0.3);
+/* Subtle architectural paper texture background */
+.bg-swiss-subtle {
+  background-color: #F8FAFC;
+  background-image: radial-gradient(#E2E8F0 0.75px, transparent 0.75px);
+  background-size: 24px 24px;
 }
 
-/* Subtle background radiance */
-.bg-ambient-glow {
-  background: radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.07) 0%, rgba(16, 185, 129, 0.04) 35%, transparent 70%);
-}
-
-/* Custom scrollbar */
+/* Clean Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 ::-webkit-scrollbar-track {
   background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;

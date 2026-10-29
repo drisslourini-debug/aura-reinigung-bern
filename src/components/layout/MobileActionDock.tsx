@@ -19,7 +19,7 @@ export function MobileActionDock() {
           className="flex-1 flex items-center justify-center gap-1.5 py-3 px-2 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 transition-all text-white text-xs font-semibold"
           aria-label="Jetzt anrufen"
         >
-          <div className="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+          <div className="w-6 h-6 rounded-lg bg-white/15 text-white flex items-center justify-center">
             <Phone className="w-3.5 h-3.5" />
           </div>
           <span>Anrufen</span>
@@ -42,7 +42,7 @@ export function MobileActionDock() {
         {/* Calculator / Offerte Button */}
         <Link
           href="/offerte-anfragen"
-          className="flex-[1.2] flex items-center justify-center gap-1.5 py-3 px-3 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 active:scale-95 transition-all text-xs font-bold shadow-lg shadow-cyan-500/20"
+          className="flex-[1.2] flex items-center justify-center gap-1.5 py-3 px-3 rounded-xl bg-white text-slate-950 hover:bg-slate-100 active:scale-95 transition-all text-xs font-bold shadow-lg"
           aria-label="Offerte anfragen"
         >
           <Calculator className="w-3.5 h-3.5" />

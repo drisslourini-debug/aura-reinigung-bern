@@ -31,37 +31,36 @@ export default function HomePage() {
       <RegionalCoverage />
 
       {/* 7. High-Conversion Bottom CTA Banner */}
-      <section className="py-20 relative bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(0,210,255,0.15),transparent_50%)]" />
+      <section className="py-20 relative bg-slate-950 text-white overflow-hidden border-t border-slate-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-800 text-cyan-300 text-xs font-semibold uppercase tracking-wider">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Jetzt Termin sichern</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 text-xs font-semibold uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-red-600 inline-block" />
+            <span>Jetzt Wunschtermin unverbindlich anfragen</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white max-w-2xl mx-auto">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white max-w-2xl mx-auto">
             Bereit für eine stressfreie Wohnungsabgabe in Bern?
           </h2>
 
           <p className="text-slate-300 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             Kontaktieren Sie uns noch heute. Wir übernehmen die Reinigung, stehen bei der
-            Übergabe neben Ihnen und garantieren Ihnen die volle Kaution zurück.
+            Übergabe physisch neben Ihnen und garantieren Ihnen die mängelfreie Abnahme.
           </p>
 
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Link
               href="/offerte-anfragen"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-bold text-base shadow-xl shadow-cyan-500/20 transition-all hover:scale-[1.02] active:scale-100"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-base shadow-xl transition-all active:scale-98"
             >
               <span>Kostenlose Offerte anfordern</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5 text-slate-900" />
             </Link>
 
             <a
               href={`tel:${SITE_CONFIG.contact.phone}`}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-semibold text-base border border-white/20 transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base border border-slate-800 transition-colors"
             >
-              <Phone className="w-4 h-4 text-cyan-400" />
+              <Phone className="w-4 h-4 text-slate-300" />
               <span>{SITE_CONFIG.contact.phoneDisplay}</span>
             </a>
 
@@ -69,7 +68,7 @@ export default function HomePage() {
               href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-emerald-600/80 hover:bg-emerald-600 text-white font-semibold text-base border border-emerald-500/50 transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-base shadow-md transition-colors"
             >
               <MessageSquare className="w-4 h-4" />
               <span>WhatsApp Chat</span>

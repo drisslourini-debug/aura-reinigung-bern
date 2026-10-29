@@ -234,27 +234,30 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
   };
 
   return (
-    <section id="rechner" className="py-16 sm:py-24 relative bg-slate-50/70 border-t border-slate-200/60 scroll-mt-20">
+    <section id="rechner" className="py-16 sm:py-24 relative bg-slate-50 border-t border-slate-200 scroll-mt-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-3">
-            <Calculator className="w-3.5 h-3.5 text-cyan-600" />
-            <span>Transparenter Schweizer Fixpreis-Rechner</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm text-xs font-semibold text-slate-800 mb-3">
+            <span className="w-3.5 h-3.5 rounded-sm bg-red-600 text-white flex items-center justify-center font-black text-[9px] leading-none shrink-0">
+              +
+            </span>
+            <span>Schweizer Fixpreis-Kalkulation Bern</span>
+            <span className="text-slate-300">|</span>
+            <span className="text-emerald-700 font-semibold">100% Verbindlich</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900">
-            Berechnen Sie Ihre Preisrichtung
+          <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-950">
+            Transparenter Kostenrechner
           </h2>
 
           <p className="mt-2 text-xs sm:text-base text-slate-600">
-            Wählen Sie Ihre Dienstleistung für einen individuell massgeschneiderten Fragebogen mit realistischen Berner Marktpreisen.
+            Wählen Sie Ihre Anforderungen für eine sofortige, realistische Kosteneinschätzung nach offiziellen Berner Tarifen.
           </p>
         </div>
 
         {/* Wizard Container */}
-        <div className="glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden bg-white/95 border border-slate-200/90">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-emerald-400 to-blue-500" />
+        <div className="swiss-card rounded-2xl p-6 sm:p-10 relative overflow-hidden bg-white border border-slate-200">
 
           {/* Progress Indicator */}
           {step <= 4 && (
@@ -279,7 +282,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
 
               <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 transition-all duration-300"
+                  className="h-full bg-slate-900 transition-all duration-300"
                   style={{ width: `${(step / 4) * 100}%` }}
                 />
               </div>
@@ -309,13 +312,13 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                       onClick={() => setService(s.id)}
                       className={`p-4 rounded-2xl border text-left transition-all duration-200 active:scale-98 flex items-start gap-3.5 min-h-[92px] relative ${
                         isSelected
-                          ? "bg-slate-900 text-white border-slate-900 shadow-xl ring-2 ring-cyan-400/40"
-                          : "bg-white text-slate-800 border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/20"
+                          ? "bg-slate-900 text-white border-slate-900 shadow-lg"
+                          : "bg-white text-slate-800 border-slate-200 hover:border-slate-400 hover:bg-slate-50/60"
                       }`}
                     >
                       <div
                         className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                          isSelected ? "bg-cyan-500 text-slate-950" : "bg-cyan-50 text-cyan-600"
+                          isSelected ? "bg-white text-slate-900" : "bg-slate-100 text-slate-700"
                         }`}
                       >
                         <Icon className="w-5 h-5" />
@@ -476,7 +479,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => toggleArrayItem(umzugExtras, setUmzugExtras, ex.id)}
                             className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[48px] ${
                               isChecked
-                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                ? "bg-slate-50 border-slate-900 text-slate-900 font-semibold"
                                 : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                             }`}
                           >
@@ -484,7 +487,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                               <div
                                 className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
                                   isChecked
-                                    ? "bg-cyan-500 border-cyan-500 text-white"
+                                    ? "bg-slate-900 border-slate-900 text-white"
                                     : "border-slate-300 bg-white"
                                 }`}
                               >
@@ -579,14 +582,14 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => toggleArrayItem(unterhaltExtras, setUnterhaltExtras, ex.id)}
                             className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[48px] ${
                               isChecked
-                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                ? "bg-slate-50 border-slate-900 text-slate-900 font-semibold"
                                 : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                             }`}
                           >
                             <div className="flex items-center gap-2.5">
                               <div
                                 className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
-                                  isChecked ? "bg-cyan-500 border-cyan-500 text-white" : "border-slate-300 bg-white"
+                                  isChecked ? "bg-slate-900 border-slate-900 text-white" : "border-slate-300 bg-white"
                                 }`}
                               >
                                 {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
@@ -677,14 +680,14 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => toggleArrayItem(hauswartungModules, setHauswartungModules, m.id)}
                             className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[50px] ${
                               isChecked
-                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                ? "bg-slate-50 border-slate-900 text-slate-900 font-semibold"
                                 : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                             }`}
                           >
                             <div className="flex items-center gap-2.5">
                               <div
                                 className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
-                                  isChecked ? "bg-cyan-500 border-cyan-500 text-white" : "border-slate-300 bg-white"
+                                  isChecked ? "bg-slate-900 border-slate-900 text-white" : "border-slate-300 bg-white"
                                 }`}
                               >
                                 {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
@@ -782,14 +785,14 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => toggleArrayItem(fensterExtras, setFensterExtras, ex.id)}
                             className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[48px] ${
                               isChecked
-                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                ? "bg-slate-50 border-slate-900 text-slate-900 font-semibold"
                                 : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                             }`}
                           >
                             <div className="flex items-center gap-2.5">
                               <div
                                 className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
-                                  isChecked ? "bg-cyan-500 border-cyan-500 text-white" : "border-slate-300 bg-white"
+                                  isChecked ? "bg-slate-900 border-slate-900 text-white" : "border-slate-300 bg-white"
                                 }`}
                               >
                                 {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
@@ -880,14 +883,14 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => toggleArrayItem(gewerbeModules, setGewerbeModules, m.id)}
                             className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[48px] ${
                               isChecked
-                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                ? "bg-slate-50 border-slate-900 text-slate-900 font-semibold"
                                 : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                             }`}
                           >
                             <div className="flex items-center gap-2.5">
                               <div
                                 className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
-                                  isChecked ? "bg-cyan-500 border-cyan-500 text-white" : "border-slate-300 bg-white"
+                                  isChecked ? "bg-slate-900 border-slate-900 text-white" : "border-slate-300 bg-white"
                                 }`}
                               >
                                 {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
@@ -978,14 +981,14 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                             onClick={() => toggleArrayItem(bauExtras, setBauExtras, ex.id)}
                             className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[48px] ${
                               isChecked
-                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                ? "bg-slate-50 border-slate-900 text-slate-900 font-semibold"
                                 : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                             }`}
                           >
                             <div className="flex items-center gap-2.5">
                               <div
                                 className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
-                                  isChecked ? "bg-cyan-500 border-cyan-500 text-white" : "border-slate-300 bg-white"
+                                  isChecked ? "bg-slate-900 border-slate-900 text-white" : "border-slate-300 bg-white"
                                 }`}
                               >
                                 {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
@@ -1057,7 +1060,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                         setCity(parts.slice(1).join(" ") || "");
                       }}
                       placeholder="3000 Bern"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
                     />
                   </div>
 
@@ -1091,7 +1094,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                       type="date"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
                     />
                   </div>
                   <p className="text-[11px] text-slate-400 mt-1.5">
@@ -1186,7 +1189,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                       onChange={(e) => setFullName(e.target.value)}
                       placeholder="z. B. Driss & Amin Lourini"
                       autoComplete="name"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
                     />
                   </div>
                 </div>
@@ -1207,7 +1210,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="ihre.adresse@beispiel.ch"
                       autoComplete="email"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
                     />
                   </div>
                 </div>
@@ -1229,7 +1232,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                       placeholder="079 123 45 67"
                       inputMode="tel"
                       autoComplete="tel"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
                     />
                   </div>
                   <p className="text-[11px] text-slate-400 mt-1">
@@ -1257,14 +1260,14 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-black text-sm shadow-xl shadow-cyan-500/20 active:scale-98 transition-all disabled:opacity-50"
+                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md active:scale-98 transition-all disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <span>Berechnung läuft...</span>
                   ) : (
                     <>
                       <span>Preisrichtung jetzt freischalten</span>
-                      <Sparkles className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
@@ -1292,28 +1295,26 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                 </p>
               </div>
 
-              {/* Big Price Reveal Card */}
-              <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-cyan-500/30 relative overflow-hidden text-left max-w-xl mx-auto">
-                <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
-
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs uppercase tracking-wider font-bold text-cyan-400">
+              {/* Big Price Reveal Card - Clean Swiss Dark Navy */}
+              <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 shadow-xl border border-slate-800 relative text-left max-w-xl mx-auto">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs uppercase tracking-wider font-bold text-slate-400">
                     Fixpreis-Richtwertrahmen
                   </span>
-                  <span className="inline-flex items-center gap-1 text-[11px] text-emerald-400 bg-emerald-950/80 border border-emerald-700/60 px-2.5 py-0.5 rounded-full">
-                    <Sparkles className="w-3 h-3" />
-                    <span>Inkl. 8.1% MwSt.</span>
+                  <span className="inline-flex items-center gap-1.5 text-[11px] text-emerald-300 bg-emerald-950/80 border border-emerald-800/80 px-2.5 py-0.5 rounded-full font-medium">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Inkl. 8.1% MwSt. & Abnahme</span>
                   </span>
                 </div>
 
                 <div className="text-3xl sm:text-5xl font-black text-white tracking-tight mt-1">
                   {formatCHF(result.minPrice)} – {formatCHF(result.maxPrice)}
                 </div>
-                <div className="text-xs text-cyan-300 font-semibold mt-1">
+                <div className="text-xs text-slate-300 font-medium mt-1.5">
                   {result.unitLabel}
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-white/10 text-xs text-slate-300 space-y-2.5">
+                <div className="mt-5 pt-4 border-t border-slate-800 text-xs text-slate-300 space-y-2.5">
                   <div className="flex justify-between items-center">
                     <span className="text-slate-400">Einschätzung / Turnus:</span>
                     <span className="font-semibold text-white">{result.hoursText}</span>
@@ -1327,18 +1328,18 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-slate-400">Anfahrtskosten Bern:</span>
-                    <span className="font-semibold text-cyan-300">CHF 0.00 (Kostenlos)</span>
+                    <span className="font-semibold text-slate-200">CHF 0.00 (Kostenlos)</span>
                   </div>
                 </div>
 
                 {/* Parameters Tag list */}
-                <div className="mt-4 pt-3 border-t border-white/10 flex flex-wrap gap-1.5 text-[11px]">
+                <div className="mt-5 pt-4 border-t border-slate-800 flex flex-wrap gap-1.5 text-[11px]">
                   {result.summaryDetails.map((det, i) => (
-                    <span key={i} className="px-2.5 py-0.5 rounded-lg bg-white/10 text-slate-300 border border-white/10">
+                    <span key={i} className="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700">
                       ✓ {det}
                     </span>
                   ))}
-                  <span className="px-2.5 py-0.5 rounded-lg bg-cyan-950 text-cyan-300 border border-cyan-800/60">
+                  <span className="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200 border border-slate-700">
                     📍 {zip} {city}
                   </span>
                 </div>

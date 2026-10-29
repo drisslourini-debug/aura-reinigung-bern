@@ -65,27 +65,27 @@ export function Header() {
             </Link>
             <Link
               href="/#garantie"
-              className="hover:text-cyan-600 transition-colors flex items-center gap-1.5 py-1"
+              className="hover:text-slate-900 transition-colors flex items-center gap-1.5 py-1"
             >
-              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
               <span>Abnahmegarantie</span>
             </Link>
             <Link
               href="/#rechner"
-              className="hover:text-cyan-600 transition-colors flex items-center gap-1.5 py-1"
+              className="hover:text-slate-900 transition-colors flex items-center gap-1.5 py-1"
             >
-              <Calculator className="w-4 h-4 text-cyan-500" />
+              <Calculator className="w-4 h-4 text-slate-700" />
               <span>Kostenrechner</span>
             </Link>
             <Link
               href="/ueber-uns"
-              className="hover:text-cyan-600 transition-colors py-1"
+              className="hover:text-slate-900 transition-colors py-1"
             >
               Über uns
             </Link>
             <Link
               href="/kontakt"
-              className="hover:text-cyan-600 transition-colors py-1"
+              className="hover:text-slate-900 transition-colors py-1"
             >
               Kontakt
             </Link>
@@ -95,9 +95,9 @@ export function Header() {
           <div className="hidden sm:flex items-center gap-4">
             <a
               href={`tel:${SITE_CONFIG.contact.phone}`}
-              className="flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-cyan-600 transition-colors px-3 py-2 rounded-lg hover:bg-slate-100/60"
+              className="flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-slate-900 transition-colors px-3 py-2 rounded-lg hover:bg-slate-100/60"
             >
-              <div className="w-8 h-8 rounded-full bg-cyan-50 text-cyan-600 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-slate-100 text-slate-800 flex items-center justify-center">
                 <Phone className="w-4 h-4" />
               </div>
               <span>{SITE_CONFIG.contact.phoneDisplay}</span>
@@ -124,7 +124,7 @@ export function Header() {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-xl text-slate-800 bg-slate-100/80 active:scale-95 transition-transform border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="p-2.5 rounded-xl text-slate-800 bg-slate-100/80 active:scale-95 transition-transform border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900"
               aria-label={mobileMenuOpen ? "Menü schliessen" : "Menü öffnen"}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-navigation-drawer"
@@ -241,8 +241,8 @@ export function Header() {
             </nav>
 
             {/* Quick Response Badge */}
-            <div className="p-3.5 rounded-2xl bg-cyan-50/70 border border-cyan-200/80 flex items-center gap-3 text-xs text-slate-700">
-              <Clock className="w-4 h-4 text-cyan-600 shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center gap-3 text-xs text-slate-700">
+              <Clock className="w-4 h-4 text-slate-900 shrink-0" />
               <span>
                 <strong>Express-Antwort:</strong> Anfragen werden werktags binnen 2 Stunden beantwortet.
               </span>
@@ -252,7 +252,7 @@ export function Header() {
             <Link
               href="/offerte-anfragen"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-600 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 active:scale-98 transition-transform"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md active:scale-98 transition-transform"
             >
               <span>Kostenlose Offerte anfordern</span>
               <ArrowRight className="w-4 h-4" />

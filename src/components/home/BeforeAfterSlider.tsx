@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useCallback } from "react";
 import Image from "next/image";
-import { Sparkles, AlertCircle, CheckCircle2 } from "lucide-react";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 
 export function BeforeAfterSlider() {
   const [sliderPosition, setSliderPosition] = useState(50);
@@ -36,25 +36,22 @@ export function BeforeAfterSlider() {
 
   return (
     <section className="py-16 sm:py-24 relative bg-slate-950 text-white overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[600px] h-[300px] sm:h-[400px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
-
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-cyan-300 text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Show, Don't Tell</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 text-[11px] font-semibold uppercase tracking-wider mb-3">
+            <span className="w-2 h-2 rounded-full bg-red-600 inline-block" />
+            <span>Praxis-Abnahmekriterien • Kanton Bern</span>
           </div>
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white">
-            Der Vorher / Nachher Unterschied
+            Der Unterschied bei der Wohnungsabgabe
           </h2>
           <p className="mt-3 text-xs sm:text-base text-slate-300">
-            Wischen Sie mit dem Finger über den Regler, um den Unterschied im Detail zu vergleichen.
+            Wischen Sie mit dem Schieberegler, um typische Beanstandungspunkte der Berner Liegenschaftsverwaltungen mit unserem Abgabestandard zu vergleichen.
           </p>
 
           {/* Mobile Swipe Badge */}
-          <div className="sm:hidden mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[11px] font-medium">
+          <div className="sm:hidden mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 text-[11px] font-medium">
             <span>‹‹ Regler nach links/rechts schieben ››</span>
           </div>
         </div>
@@ -68,7 +65,7 @@ export function BeforeAfterSlider() {
           onMouseMove={handleMouseMove}
           onTouchStart={handleTouchMove}
           onTouchMove={handleTouchMove}
-          className="relative h-[320px] sm:h-[460px] lg:h-[500px] w-full rounded-2xl sm:rounded-3xl overflow-hidden cursor-ew-resize select-none border border-white/15 shadow-2xl shadow-cyan-950/40"
+          className="relative h-[320px] sm:h-[460px] lg:h-[500px] w-full rounded-2xl sm:rounded-3xl overflow-hidden cursor-ew-resize select-none border border-white/15 shadow-2xl"
           style={{ touchAction: "pan-y" }}
         >
           {/* Layer 1: After Image (Full width background) */}
@@ -141,7 +138,7 @@ export function BeforeAfterSlider() {
 
           {/* Slider Divider Bar & Tactile Drag Handle */}
           <div
-            className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize shadow-[0_0_20px_rgba(0,210,255,1)]"
+            className="absolute top-0 bottom-0 w-0.5 bg-white cursor-ew-resize shadow-[0_0_15px_rgba(255,255,255,0.7)]"
             style={{ left: `${sliderPosition}%` }}
           >
             <div
@@ -158,27 +155,27 @@ export function BeforeAfterSlider() {
                   setSliderPosition((prev) => Math.min(100, prev + 5));
                 }
               }}
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white text-slate-950 shadow-2xl flex items-center justify-center font-bold text-xs sm:text-sm border-2 border-cyan-400 transition-transform active:scale-110 focus:outline-none focus:ring-4 focus:ring-cyan-400/50"
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-white text-slate-950 shadow-2xl flex items-center justify-center font-bold text-[11px] sm:text-xs border border-slate-300 transition-transform active:scale-105 focus:outline-none select-none tracking-wide whitespace-nowrap"
               style={{ touchAction: "none" }}
             >
-              ↔
+              Vorher ⟷ Nachher
             </div>
           </div>
         </div>
 
         {/* Feature comparison pills below slider */}
         <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4 text-center">
-          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 text-xs">
-            <span className="text-cyan-400 font-bold block mb-0.5 sm:mb-1">Armaturen & Sanitär</span>
-            <span className="text-slate-400 text-[11px] sm:text-xs">Porentiefe Entkalkung ohne aggressive Säureschäden</span>
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 text-xs">
+            <span className="text-white font-bold block mb-0.5 sm:mb-1">KWC & Laufen Sanitär</span>
+            <span className="text-slate-400 text-[11px] sm:text-xs">Porentiefe Entkalkung von Duschköpfen, Abläufen & Fugen</span>
           </div>
-          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 text-xs">
-            <span className="text-emerald-400 font-bold block mb-0.5 sm:mb-1">Backofen & Steamer</span>
-            <span className="text-slate-400 text-[11px] sm:text-xs">Schonende Fett- und Einbrandlösung mit Profidampf</span>
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 text-xs">
+            <span className="text-emerald-400 font-bold block mb-0.5 sm:mb-1">V-ZUG & Miele Küchen</span>
+            <span className="text-slate-400 text-[11px] sm:text-xs">Fettfreier Backofen, gereinigte Filter & desinfizierter Steamer</span>
           </div>
-          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 text-xs">
-            <span className="text-cyan-400 font-bold block mb-0.5 sm:mb-1">Fenster & Lamellen</span>
-            <span className="text-slate-400 text-[11px] sm:text-xs">Streifenfreies Reinwasser für makellose Durchsicht</span>
+          <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 text-xs">
+            <span className="text-white font-bold block mb-0.5 sm:mb-1">Fenster & Lamellenstoren</span>
+            <span className="text-slate-400 text-[11px] sm:text-xs">Streifenfreie Scheiben, saubere Rahmenfalze & staubfreie Lamellen</span>
           </div>
         </div>
       </div>
