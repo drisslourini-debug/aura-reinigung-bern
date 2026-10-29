@@ -81,8 +81,8 @@ export function QuotationFunnel() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fullName || !email || !phone || !zip) {
-      alert("Bitte füllen Sie alle Pflichtfelder aus.");
+    if (!email.trim() && !phone.trim()) {
+      alert("Bitte geben Sie mindestens Ihre E-Mail-Adresse oder Telefonnummer an, um die Preisrichtung zu erhalten.");
       return;
     }
 
@@ -93,11 +93,11 @@ export function QuotationFunnel() {
         rooms: selectedService === "umzug" ? rooms : undefined,
         extras: extras,
         date: desiredDate,
-        zip,
-        city,
-        fullName,
-        email,
-        phone,
+        zip: zip || "3000",
+        city: city || "Bern",
+        fullName: fullName.trim() || "Interessent",
+        email: email.trim(),
+        phone: phone.trim(),
         notes,
         estimatedPriceRange: selectedService === "umzug" ? calculatedEstimate : undefined,
       });
@@ -116,59 +116,80 @@ export function QuotationFunnel() {
 
   if (result?.success) {
     return (
-      <div className="glass-panel max-w-2xl mx-auto rounded-3xl p-8 sm:p-12 text-center shadow-2xl">
-        <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-6">
+      <div className="glass-panel max-w-2xl mx-auto rounded-3xl p-6 sm:p-10 text-center shadow-2xl animate-in fade-in zoom-in-95 duration-500">
+        <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4 shadow-inner">
           <CheckCircle2 className="w-8 h-8" />
         </div>
 
-        <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+        <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
           Referenz: {result.ref}
         </span>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
-          Anfrage erfolgreich übermittelt!
+        <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-3">
+          Ihre persönliche Preisrichtung
         </h2>
-        <p className="mt-3 text-sm text-slate-600 leading-relaxed max-w-md mx-auto">
+        <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed max-w-md mx-auto">
           {result.message}
         </p>
 
-        <div className="mt-8 p-6 bg-slate-50 rounded-2xl border border-slate-200/80 text-left text-xs space-y-2 max-w-md mx-auto">
-          <div className="font-bold text-slate-800 text-sm mb-2 border-b border-slate-200 pb-1">
-            Ihre Anfragedaten:
-          </div>
-          <div className="flex justify-between">
-            <span className="text-slate-500">Service:</span>
-            <span className="font-semibold text-slate-800">{selectedService}</span>
-          </div>
-          {selectedService === "umzug" && (
-            <div className="flex justify-between">
-              <span className="text-slate-500">Objekt:</span>
-              <span className="font-semibold text-slate-800">{rooms} Zimmer ({calculatedEstimate})</span>
+        {/* Revealed Price Indicator Card */}
+        {selectedService === "umzug" ? (
+          <div className="mt-6 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-8 text-left shadow-2xl border border-cyan-500/30 relative overflow-hidden">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs uppercase tracking-wider font-bold text-cyan-400">
+                Fixpreis-Rahmen mit Abnahmegarantie
+              </span>
+              <span className="text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-700/60 px-2 py-0.5 rounded-full">
+                Inkl. 8.1% MwSt.
+              </span>
             </div>
-          )}
-          <div className="flex justify-between">
-            <span className="text-slate-500">Einsatzort:</span>
-            <span className="font-semibold text-slate-800">{zip} {city}</span>
+            <div className="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1">
+              {calculatedEstimate}
+            </div>
+            <div className="mt-4 pt-3 border-t border-white/10 text-xs text-slate-300 space-y-2">
+              <div className="flex justify-between">
+                <span className="text-slate-400">Objekt & Grösse:</span>
+                <span className="font-semibold text-white">{rooms} Zimmer ({zip} {city})</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-400">100% Abnahmegarantie:</span>
+                <span className="font-bold text-emerald-400">Inklusive (Präsenz vor Ort)</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-400">Anfahrtskosten Bern:</span>
+                <span className="font-semibold text-cyan-300">CHF 0.00 (Kostenlos)</span>
+              </div>
+            </div>
           </div>
-          <div className="flex justify-between">
-            <span className="text-slate-500">Kontakt:</span>
-            <span className="font-semibold text-slate-800">{fullName} ({phone})</span>
+        ) : (
+          <div className="mt-6 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-8 text-left shadow-2xl border border-cyan-500/30">
+            <span className="text-xs uppercase tracking-wider font-bold text-cyan-400">
+              Gewählte Dienstleistung
+            </span>
+            <div className="text-2xl font-black text-white mt-1 capitalize">
+              {selectedService} in {zip} {city}
+            </div>
+            <p className="text-xs text-slate-300 mt-2">
+              Unser Team erstellt Ihre detaillierte Pauschale und meldet sich innerhalb von 2 Stunden.
+            </p>
           </div>
-        </div>
+        )}
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
-            href={`tel:${SITE_CONFIG.contact.phone}`}
-            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-900 text-white font-medium text-xs hover:bg-slate-800 transition-colors"
-          >
-            Direkt anrufen: {SITE_CONFIG.contact.phoneDisplay}
-          </a>
-          <a
-            href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}`}
+            href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}?text=${encodeURIComponent(
+              `Hallo AURA Clean Team, ich habe eine Offerte angefragt (Ref: ${result.ref}) für ${selectedService} in ${zip} ${city}.`
+            )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 text-white font-medium text-xs hover:bg-emerald-700 transition-colors"
+            className="w-full sm:w-auto flex-1 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-colors"
           >
             Via WhatsApp chatten
+          </a>
+          <a
+            href={`tel:${SITE_CONFIG.contact.phone}`}
+            className="w-full sm:w-auto flex-1 px-6 py-3.5 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition-colors"
+          >
+            Direkt anrufen: {SITE_CONFIG.contact.phoneDisplay}
           </a>
         </div>
       </div>
@@ -506,7 +527,7 @@ export function QuotationFunnel() {
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5 flex items-center gap-1.5">
                     <Phone className="w-3.5 h-3.5 text-cyan-600" />
-                    <span>Telefonnummer (für Rückfragen) *</span>
+                    <span>Telefonnummer</span>
                   </label>
                   <input
                     type="tel"
@@ -515,15 +536,15 @@ export function QuotationFunnel() {
                     placeholder="079 123 45 67"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    required
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 min-h-[48px]"
                   />
+                  <span className="text-[10px] text-slate-400 mt-1 block">Für SMS / WhatsApp-Rückfrage</span>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5 flex items-center gap-1.5">
                     <Mail className="w-3.5 h-3.5 text-cyan-600" />
-                    <span>E-Mail-Adresse *</span>
+                    <span>E-Mail-Adresse</span>
                   </label>
                   <input
                     type="email"
@@ -533,11 +554,14 @@ export function QuotationFunnel() {
                     placeholder="sandra.gerber@beispiel.ch"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 min-h-[48px]"
                   />
+                  <span className="text-[10px] text-slate-400 mt-1 block">Für schriftliche Offerte (PDF)</span>
                 </div>
               </div>
+              <p className="text-[11px] text-slate-500 font-medium">
+                * Mindestens eine Kontaktangabe (E-Mail oder Telefon) erforderlich, um die Preisrichtung zu erhalten.
+              </p>
 
               {/* revDSG consent checkbox */}
               <div className="pt-2">
@@ -575,7 +599,7 @@ export function QuotationFunnel() {
                 disabled={isSubmitting}
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-600 hover:from-cyan-400 hover:to-emerald-500 text-white text-xs sm:text-sm font-bold shadow-lg transition-all disabled:opacity-50"
               >
-                <span>{isSubmitting ? "Wird übermittelt..." : "Kostenlose Offerte anfordern"}</span>
+                <span>{isSubmitting ? "Wird berechnet..." : "Preisrichtung berechnen & freischalten"}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
