@@ -13,127 +13,172 @@ import {
   MessageSquare,
   MapPin,
   Calendar,
-  Home,
-  Building2,
-  Sun,
-  Briefcase,
   RefreshCw,
   CheckCircle2,
   Lock,
   Mail,
   User,
   Clock,
+  Layers,
+  HelpCircle,
 } from "lucide-react";
+import {
+  CALCULATOR_SERVICES,
+  ServiceType,
+  UMZUG_OPTIONS,
+  UNTERHALT_OPTIONS,
+  HAUSWARTUNG_OPTIONS,
+  FENSTER_OPTIONS,
+  GEWERBE_OPTIONS,
+  BAUREINIGUNG_OPTIONS,
+  calculateDynamicPrice,
+} from "@/config/calculator.config";
 import { SITE_CONFIG } from "@/config/site.config";
 import { submitQuotationLead } from "@/app/actions/leadActions";
 import { formatCHF } from "@/lib/utils";
 
-const SERVICES_CONFIG = [
-  {
-    id: "umzug",
-    title: "Umzugsreinigung",
-    sub: "Mit 100% Abnahmegarantie & Übergabebegleitung",
-    badge: "Beliebteste Wahl",
-    icon: Sparkles,
-  },
-  {
-    id: "unterhalt",
-    title: "Unterhaltsreinigung",
-    sub: "Regelmässig oder einmalig für Wohnung & Haus",
-    badge: "Privat",
-    icon: Home,
-  },
-  {
-    id: "hauswartung",
-    title: "Hauswartung & Treppenhaus",
-    sub: "Liegenschaftsservice für Verwaltungen & MFH",
-    badge: "Liegenschaften",
-    icon: Building2,
-  },
-  {
-    id: "fenster",
-    title: "Fenster- & Storenreinigung",
-    sub: "Streifenfreies Reinwasser inkl. Lamellen & Rahmen",
-    badge: "Glas & Storen",
-    icon: Sun,
-  },
-  {
-    id: "gewerbe",
-    title: "Büro- & Gewerbereinigung",
-    sub: "Repräsentative Hygiene für Kanzleien & Praxen",
-    badge: "B2B",
-    icon: Briefcase,
-  },
-];
+interface CostEstimatorProps {
+  initialService?: ServiceType;
+}
 
-export function CostEstimator() {
-  const [step, setStep] = useState(1);
+export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
+  const [step, setStep] = useState(initialService ? 2 : 1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Form Inputs
-  const [service, setService] = useState("umzug");
-  const [selectedRoomIndex, setSelectedRoomIndex] = useState(2); // default: 3.5 Zimmer
-  const [selectedExtras, setSelectedExtras] = useState<string[]>(["lamellen", "balkon"]);
+  // Selected Service
+  const [service, setService] = useState<ServiceType>(initialService || "umzug");
+
+  React.useEffect(() => {
+    if (initialService) {
+      setService(initialService);
+      setStep(2);
+    }
+  }, [initialService]);
+
+  // === DYNAMIC STEP 2 STATE ===
+  // Umzug State
+  const [roomIndex, setRoomIndex] = useState(2); // 3.5 Zimmer default
+  const [bathrooms, setBathrooms] = useState("1");
+  const [umzugExtras, setUmzugExtras] = useState<string[]>(["lamellen", "balkon"]);
+
+  // Unterhalt State
+  const [propertySize, setPropertySize] = useState("medium");
+  const [frequency, setFrequency] = useState("biweekly");
+  const [unterhaltExtras, setUnterhaltExtras] = useState<string[]>(["oven"]);
+
+  // Hauswartung State
+  const [unitsSize, setUnitsSize] = useState("units_medium");
+  const [turn, setTurn] = useState("weekly");
+  const [hauswartungModules, setHauswartungModules] = useState<string[]>([
+    "stairs",
+    "laundry",
+    "trash",
+  ]);
+
+  // Fenster State
+  const [paneCount, setPaneCount] = useState("20");
+  const [blindType, setBlindType] = useState("lamella");
+  const [fensterExtras, setFensterExtras] = useState<string[]>(["height"]);
+
+  // Gewerbe State
+  const [gewerbeSize, setGewerbeSize] = useState("medium");
+  const [gewerbeFreq, setGewerbeFreq] = useState("2x");
+  const [gewerbeModules, setGewerbeModules] = useState<string[]>([
+    "sanitary",
+    "kitchen",
+  ]);
+
+  // Baureinigung State
+  const [bauType, setBauType] = useState("fine");
+  const [bauSize, setBauSize] = useState("medium");
+  const [bauExtras, setBauExtras] = useState<string[]>(["cement"]);
+
+  // === STEP 3 STATE (Location & Date) ===
   const [zip, setZip] = useState("3000");
   const [city, setCity] = useState("Bern");
   const [date, setDate] = useState("");
   const [hasLift, setHasLift] = useState(true);
 
-  // Contact Inputs (Step 4)
+  // === STEP 4 STATE (Contact) ===
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  // Result state (Step 5 Reveal)
+  // === STEP 5 RESULT STATE ===
   const [result, setResult] = useState<{
     referenceNumber: string;
-    priceMin: number;
-    priceMax: number;
-    hoursMin: number;
-    hoursMax: number;
+    minPrice: number;
+    maxPrice: number;
+    unitLabel: string;
+    hoursText: string;
+    summaryDetails: string[];
   } | null>(null);
 
-  const currentRoom = SITE_CONFIG.pricingEstimates.umzug[selectedRoomIndex];
+  // Current active service definition
+  const currentServiceDef = useMemo(
+    () => CALCULATOR_SERVICES.find((s) => s.id === service) || CALCULATOR_SERVICES[0],
+    [service]
+  );
 
-  // Price Calculation
-  const extrasCost = useMemo(() => {
-    return selectedExtras.reduce((sum, extraId) => {
-      const extra = SITE_CONFIG.pricingEstimates.extras.find((e) => e.id === extraId);
-      return sum + (extra ? extra.surcharge : 0);
-    }, 0);
-  }, [selectedExtras]);
+  // Live dynamic price calculation
+  const calculated = useMemo(() => {
+    return calculateDynamicPrice(service, {
+      roomIndex,
+      bathrooms,
+      umzugExtras,
+      propertySize,
+      frequency,
+      unterhaltExtras,
+      unitsSize,
+      turn,
+      hauswartungModules,
+      paneCount,
+      blindType,
+      fensterExtras,
+      gewerbeSize,
+      gewerbeFreq,
+      gewerbeModules,
+      bauType,
+      bauSize,
+      bauExtras,
+    });
+  }, [
+    service,
+    roomIndex,
+    bathrooms,
+    umzugExtras,
+    propertySize,
+    frequency,
+    unterhaltExtras,
+    unitsSize,
+    turn,
+    hauswartungModules,
+    paneCount,
+    blindType,
+    fensterExtras,
+    gewerbeSize,
+    gewerbeFreq,
+    gewerbeModules,
+    bauType,
+    bauSize,
+    bauExtras,
+  ]);
 
-  const priceMin = useMemo(() => {
-    if (service === "umzug") return currentRoom.basePriceMin + extrasCost;
-    if (service === "unterhalt") return 140;
-    if (service === "hauswartung") return 380;
-    if (service === "fenster") return 240;
-    if (service === "gewerbe") return 320;
-    return 550;
-  }, [service, currentRoom, extrasCost]);
-
-  const priceMax = useMemo(() => {
-    if (service === "umzug") return currentRoom.basePriceMax + extrasCost;
-    if (service === "unterhalt") return 260;
-    if (service === "hauswartung") return 890;
-    if (service === "fenster") return 480;
-    if (service === "gewerbe") return 950;
-    return 850;
-  }, [service, currentRoom, extrasCost]);
-
-  const toggleExtra = (id: string) => {
-    setSelectedExtras((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+  // Toggle helpers
+  const toggleArrayItem = (list: string[], setList: (val: string[]) => void, id: string) => {
+    if (list.includes(id)) {
+      setList(list.filter((x) => x !== id));
+    } else {
+      setList([...list, id]);
+    }
   };
 
-  // Step 4 Submission -> Unlocks Step 5 (Reveal)
+  // Submit Step 4 -> Unlock Step 5
   const handleCalculateAndUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
 
-    // Validate that at least email or phone is present
     if (!email.trim() && !phone.trim()) {
       setErrorMsg("Bitte geben Sie mindestens Ihre E-Mail-Adresse oder Telefonnummer an.");
       return;
@@ -141,42 +186,40 @@ export function CostEstimator() {
 
     setIsSubmitting(true);
     try {
-      const priceRangeText = `${formatCHF(priceMin)} – ${formatCHF(priceMax)}`;
+      const priceText = `${formatCHF(calculated.minPrice)} – ${formatCHF(calculated.maxPrice)} ${calculated.unitLabel}`;
       const res = await submitQuotationLead({
-        service,
-        rooms: service === "umzug" ? currentRoom.rooms : undefined,
-        sqm: currentRoom.sqmRange,
-        extras: selectedExtras,
+        service: currentServiceDef.title,
+        rooms: service === "umzug" ? UMZUG_OPTIONS.rooms[roomIndex].label : undefined,
+        sqm: calculated.summaryDetails.join(", "),
+        extras: calculated.summaryDetails,
         date: date || "Flexibel / Nach Absprache",
-        zip,
-        city,
+        zip: zip || "3000",
+        city: city || "Bern",
         hasLift,
         fullName: fullName.trim() || "Interessent",
         email: email.trim(),
         phone: phone.trim(),
-        estimatedPriceRange: priceRangeText,
+        estimatedPriceRange: priceText,
       });
 
-      if (res.success) {
-        setResult({
-          referenceNumber: res.referenceNumber || `AURA-2026-${Math.floor(1000 + Math.random() * 9000)}`,
-          priceMin,
-          priceMax,
-          hoursMin: currentRoom.hoursMin,
-          hoursMax: currentRoom.hoursMax,
-        });
-        setStep(5); // Jump to Step 5: Reveal!
-      } else {
-        setErrorMsg(res.message);
-      }
+      setResult({
+        referenceNumber: res.referenceNumber || `AURA-2026-${Math.floor(1000 + Math.random() * 9000)}`,
+        minPrice: calculated.minPrice,
+        maxPrice: calculated.maxPrice,
+        unitLabel: calculated.unitLabel,
+        hoursText: calculated.hoursText,
+        summaryDetails: calculated.summaryDetails,
+      });
+      setStep(5);
     } catch {
-      // Fallback reveal even if network glitch occurs
+      // Fallback reveal even on network issue
       setResult({
         referenceNumber: `AURA-2026-${Math.floor(1000 + Math.random() * 9000)}`,
-        priceMin,
-        priceMax,
-        hoursMin: currentRoom.hoursMin,
-        hoursMax: currentRoom.hoursMax,
+        minPrice: calculated.minPrice,
+        maxPrice: calculated.maxPrice,
+        unitLabel: calculated.unitLabel,
+        hoursText: calculated.hoursText,
+        summaryDetails: calculated.summaryDetails,
       });
       setStep(5);
     } finally {
@@ -205,16 +248,15 @@ export function CostEstimator() {
           </h2>
 
           <p className="mt-2 text-xs sm:text-base text-slate-600">
-            In wenigen Schritten zum Richtwert für Ihre professionelle Reinigung im Grossraum Bern mit 100% Abnahmegarantie.
+            Wählen Sie Ihre Dienstleistung für einen individuell massgeschneiderten Fragebogen mit realistischen Berner Marktpreisen.
           </p>
         </div>
 
-        {/* Step Wizard Container */}
-        <div className="glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden bg-white/90 border border-slate-200/90">
-          {/* Subtle top rainbow line */}
+        {/* Wizard Container */}
+        <div className="glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden bg-white/95 border border-slate-200/90">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-emerald-400 to-blue-500" />
 
-          {/* Progress Indicator (Steps 1 to 4) */}
+          {/* Progress Indicator */}
           {step <= 4 && (
             <div className="mb-8">
               <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-2.5">
@@ -224,18 +266,17 @@ export function CostEstimator() {
                   </span>
                   <span>Schritt {step} von 4</span>
                 </span>
-                <span className="text-slate-400 font-medium hidden sm:inline">
+                <span className="text-slate-500 font-medium hidden sm:inline">
                   {step === 1 && "Dienstleistung auswählen"}
-                  {step === 2 && "Wohnungsgrösse & Details"}
-                  {step === 3 && "Einsatzort & Wunschtermin"}
+                  {step === 2 && `Spezifische Angaben für ${currentServiceDef.shortTitle}`}
+                  {step === 3 && "Einsatzort im Raum Bern & Termin"}
                   {step === 4 && "Preisrichtung freischalten"}
                 </span>
-                <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                  ✓ Unverbindlich & diskret
+                <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                  ✓ Berner Tarifstandard
                 </span>
               </div>
 
-              {/* Progress Bar */}
               <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 transition-all duration-300"
@@ -253,12 +294,12 @@ export function CostEstimator() {
                   Welche Reinigungsart benötigen Sie?
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Wählen Sie die gewünschte Hauptdienstleistung aus:
+                  Jede Kategorie öffnet im nächsten Schritt einen individuell angepassten Fragebogen:
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {SERVICES_CONFIG.map((s) => {
+                {CALCULATOR_SERVICES.map((s) => {
                   const Icon = s.icon;
                   const isSelected = service === s.id;
                   return (
@@ -266,9 +307,9 @@ export function CostEstimator() {
                       key={s.id}
                       type="button"
                       onClick={() => setService(s.id)}
-                      className={`p-4 rounded-2xl border text-left transition-all duration-200 active:scale-98 flex items-start gap-3.5 min-h-[88px] relative ${
+                      className={`p-4 rounded-2xl border text-left transition-all duration-200 active:scale-98 flex items-start gap-3.5 min-h-[92px] relative ${
                         isSelected
-                          ? "bg-slate-900 text-white border-slate-900 shadow-lg ring-2 ring-cyan-400/40"
+                          ? "bg-slate-900 text-white border-slate-900 shadow-xl ring-2 ring-cyan-400/40"
                           : "bg-white text-slate-800 border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/20"
                       }`}
                     >
@@ -291,8 +332,19 @@ export function CostEstimator() {
                             isSelected ? "text-slate-300" : "text-slate-500"
                           }`}
                         >
-                          {s.sub}
+                          {s.subtitle}
                         </p>
+                        <div className="mt-2">
+                          <span
+                            className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                              isSelected
+                                ? "bg-white/20 text-cyan-300"
+                                : "bg-slate-100 text-slate-600"
+                            }`}
+                          >
+                            {s.unit}
+                          </span>
+                        </div>
                       </div>
 
                       <div className="absolute top-4 right-4">
@@ -311,116 +363,655 @@ export function CostEstimator() {
                 })}
               </div>
 
-              {/* Next Button */}
               <div className="pt-4 flex justify-end">
                 <button
                   type="button"
                   onClick={() => setStep(2)}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-cyan-600 text-white font-bold text-sm shadow-md transition-colors active:scale-98"
                 >
-                  <span>Weiter zu Schritt 2</span>
+                  <span>Fragebogen für {currentServiceDef.shortTitle} starten</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
           )}
 
-          {/* ================= STEP 2: OBJEKT & EXTRAS ================= */}
+          {/* ================= STEP 2: DYNAMISCHER FRAGEBOGEN NACH SERVICE ================= */}
           {step === 2 && (
             <div className="space-y-6">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                  Wohnungsgrösse & gewünschte Zusatzleistungen
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Je genauer die Angaben, desto präziser ist Ihre Fixpreis-Berechnung:
-                </p>
-              </div>
-
-              {/* Room Selector */}
-              <div>
-                <div className="flex justify-between items-center mb-2.5">
-                  <label className="text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wide">
-                    Zimmeranzahl
-                  </label>
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-cyan-50 text-cyan-800 border border-cyan-200">
-                    {currentRoom.label} ({currentRoom.sqmRange})
-                  </span>
+              {/* Header with active service indicator */}
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                <div>
+                  <div className="text-xs font-bold text-cyan-600 uppercase tracking-wider">
+                    {currentServiceDef.title}
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight mt-0.5">
+                    Objektdetails & Spezifikationen
+                  </h3>
                 </div>
-
-                <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
-                  {SITE_CONFIG.pricingEstimates.umzug.map((item, idx) => {
-                    const isSelected = selectedRoomIndex === idx;
-                    return (
-                      <button
-                        key={item.rooms}
-                        type="button"
-                        onClick={() => setSelectedRoomIndex(idx)}
-                        className={`py-3 px-2 rounded-xl text-center border font-bold transition-all duration-200 active:scale-95 min-h-[56px] flex flex-col items-center justify-center ${
-                          isSelected
-                            ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/40"
-                            : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/20"
-                        }`}
-                      >
-                        <div className="text-base sm:text-lg font-black leading-tight">
-                          {item.rooms}
-                        </div>
-                        <div className="text-[10px] opacity-75">Zimmer</div>
-                      </button>
-                    );
-                  })}
+                <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>{currentServiceDef.guaranteeText}</span>
                 </div>
               </div>
 
-              {/* Extras Selector */}
-              <div>
-                <label className="block text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wide mb-2.5">
-                  Bereiche / Zusätzliche Ausstattung
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {SITE_CONFIG.pricingEstimates.extras.map((extra) => {
-                    const isChecked = selectedExtras.includes(extra.id);
-                    return (
-                      <button
-                        key={extra.id}
-                        type="button"
-                        onClick={() => toggleExtra(extra.id)}
-                        className={`flex items-center justify-between p-3.5 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[50px] ${
-                          isChecked
-                            ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
-                            : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <div
-                            className={`w-5 h-5 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
-                              isChecked
-                                ? "bg-cyan-500 border-cyan-500 text-white"
-                                : "border-slate-300 bg-white"
+              {/* ---------------- A) UMZUG ---------------- */}
+              {service === "umzug" && (
+                <div className="space-y-6">
+                  {/* Zimmerauswahl */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      1. Zimmeranzahl & Wohnfläche
+                    </label>
+                    <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
+                      {UMZUG_OPTIONS.rooms.map((r, idx) => {
+                        const isSelected = roomIndex === idx;
+                        return (
+                          <button
+                            key={r.id}
+                            type="button"
+                            onClick={() => setRoomIndex(idx)}
+                            className={`py-3 px-1.5 rounded-xl text-center border font-bold transition-all duration-200 active:scale-95 min-h-[58px] flex flex-col items-center justify-center ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/40"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/20"
                             }`}
                           >
-                            {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                          </div>
-                          <span>{extra.name}</span>
-                        </div>
-                        <span className="text-slate-400 font-mono text-[11px] shrink-0 ml-2">
-                          +{extra.surcharge}.-
-                        </span>
-                      </button>
-                    );
-                  })}
+                            <span className="text-base sm:text-lg font-black leading-tight">
+                              {r.id}
+                            </span>
+                            <span className="text-[10px] opacity-80 mt-0.5">Zi.</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <div className="mt-2 text-xs text-slate-500 font-medium">
+                      Ausgewählt: <strong>{UMZUG_OPTIONS.rooms[roomIndex].label}</strong> ({UMZUG_OPTIONS.rooms[roomIndex].sqm})
+                    </div>
+                  </div>
+
+                  {/* Nasszellen */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      2. Anzahl Nasszellen (Badezimmer / WCs)
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {UMZUG_OPTIONS.bathrooms.map((b) => {
+                        const isSelected = bathrooms === b.id;
+                        return (
+                          <button
+                            key={b.id}
+                            type="button"
+                            onClick={() => setBathrooms(b.id)}
+                            className={`p-3 rounded-xl border text-left text-xs font-semibold transition-all active:scale-98 ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                            }`}
+                          >
+                            <div>{b.label}</div>
+                            {b.surcharge > 0 && (
+                              <span className={`text-[11px] font-mono mt-0.5 block ${isSelected ? "text-cyan-300" : "text-slate-400"}`}>
+                                +{b.surcharge}.-
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Extras */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      3. Zusätzliche Nebenräume & Spezialausstattung
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {UMZUG_OPTIONS.extras.map((ex) => {
+                        const isChecked = umzugExtras.includes(ex.id);
+                        return (
+                          <button
+                            key={ex.id}
+                            type="button"
+                            onClick={() => toggleArrayItem(umzugExtras, setUmzugExtras, ex.id)}
+                            className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[48px] ${
+                              isChecked
+                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div
+                                className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
+                                  isChecked
+                                    ? "bg-cyan-500 border-cyan-500 text-white"
+                                    : "border-slate-300 bg-white"
+                                }`}
+                              >
+                                {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                              </div>
+                              <span>{ex.name}</span>
+                            </div>
+                            <span className="text-slate-400 font-mono text-[11px] shrink-0 ml-2">
+                              +{ex.surcharge}.-
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* ---------------- B) UNTERHALT (PRIVAT) ---------------- */}
+              {service === "unterhalt" && (
+                <div className="space-y-6">
+                  {/* Wohnungsfläche */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      1. Wohnungs- oder Hausgrösse
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {UNTERHALT_OPTIONS.propertySizes.map((p) => {
+                        const isSelected = propertySize === p.id;
+                        return (
+                          <button
+                            key={p.id}
+                            type="button"
+                            onClick={() => setPropertySize(p.id)}
+                            className={`p-3.5 rounded-xl border text-left transition-all active:scale-98 ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/30"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                            }`}
+                          >
+                            <div className="text-xs font-bold">{p.label}</div>
+                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                              Richtzeit: {p.hours}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Frequenz */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      2. Gewünschter Reinigungs-Turnus
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {UNTERHALT_OPTIONS.frequencies.map((f) => {
+                        const isSelected = frequency === f.id;
+                        return (
+                          <button
+                            key={f.id}
+                            type="button"
+                            onClick={() => setFrequency(f.id)}
+                            className={`p-3 rounded-xl border text-center transition-all active:scale-98 min-h-[70px] flex flex-col items-center justify-center ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 shadow-md"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                            }`}
+                          >
+                            <div className="text-xs font-bold leading-tight">{f.label}</div>
+                            <div className={`text-[10px] mt-1 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                              {f.desc}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Unterhalt Extras */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      3. Optionale Zusatzdienste
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {UNTERHALT_OPTIONS.extras.map((ex) => {
+                        const isChecked = unterhaltExtras.includes(ex.id);
+                        return (
+                          <button
+                            key={ex.id}
+                            type="button"
+                            onClick={() => toggleArrayItem(unterhaltExtras, setUnterhaltExtras, ex.id)}
+                            className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[48px] ${
+                              isChecked
+                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div
+                                className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
+                                  isChecked ? "bg-cyan-500 border-cyan-500 text-white" : "border-slate-300 bg-white"
+                                }`}
+                              >
+                                {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                              </div>
+                              <span>{ex.name}</span>
+                            </div>
+                            <span className="text-slate-400 font-mono text-[11px] shrink-0 ml-2">
+                              +{ex.surcharge}.-
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ---------------- C) HAUSWARTUNG & TREPPENHAUS ---------------- */}
+              {service === "hauswartung" && (
+                <div className="space-y-6">
+                  {/* Anzahl Mietparteien */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      1. Grösse der Liegenschaft (Mietparteien / Wohnungen)
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {HAUSWARTUNG_OPTIONS.units.map((u) => {
+                        const isSelected = unitsSize === u.id;
+                        return (
+                          <button
+                            key={u.id}
+                            type="button"
+                            onClick={() => setUnitsSize(u.id)}
+                            className={`p-3.5 rounded-xl border text-left transition-all active:scale-98 ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/30"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                            }`}
+                          >
+                            <div className="text-xs font-bold">{u.label}</div>
+                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                              Basis-Monatspauschale ab CHF {u.baseMin}.-
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Turnus */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      2. Reinigungsrhythmus Treppenhaus
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {HAUSWARTUNG_OPTIONS.turns.map((t) => {
+                        const isSelected = turn === t.id;
+                        return (
+                          <button
+                            key={t.id}
+                            type="button"
+                            onClick={() => setTurn(t.id)}
+                            className={`p-3 rounded-xl border text-center transition-all active:scale-98 ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 font-bold"
+                                : "bg-white text-slate-700 border-slate-200"
+                            }`}
+                          >
+                            <div className="text-xs">{t.label}</div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Hauswartung Modules */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      3. Gewünschte Module & Hauswartungs-Aufgaben
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {HAUSWARTUNG_OPTIONS.modules.map((m) => {
+                        const isChecked = hauswartungModules.includes(m.id);
+                        return (
+                          <button
+                            key={m.id}
+                            type="button"
+                            onClick={() => toggleArrayItem(hauswartungModules, setHauswartungModules, m.id)}
+                            className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[50px] ${
+                              isChecked
+                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div
+                                className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
+                                  isChecked ? "bg-cyan-500 border-cyan-500 text-white" : "border-slate-300 bg-white"
+                                }`}
+                              >
+                                {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                              </div>
+                              <span>{m.name}</span>
+                            </div>
+                            {m.surcharge > 0 && (
+                              <span className="text-slate-400 font-mono text-[11px] shrink-0 ml-2">
+                                +{m.surcharge}.-/Mt.
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ---------------- D) FENSTER & STOREN ---------------- */}
+              {service === "fenster" && (
+                <div className="space-y-6">
+                  {/* Anzahl Fensterflügel */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      1. Anzahl Fensterflügel / Glasflächen
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {FENSTER_OPTIONS.panes.map((p) => {
+                        const isSelected = paneCount === p.id;
+                        return (
+                          <button
+                            key={p.id}
+                            type="button"
+                            onClick={() => setPaneCount(p.id)}
+                            className={`p-3.5 rounded-xl border text-left transition-all active:scale-98 ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/30"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                            }`}
+                          >
+                            <div className="text-xs font-bold">{p.label}</div>
+                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                              Pauschalrahmen CHF {p.baseMin} – {p.baseMax}.-
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Storenart */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      2. Beschattung & Storen
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {FENSTER_OPTIONS.blinds.map((b) => {
+                        const isSelected = blindType === b.id;
+                        return (
+                          <button
+                            key={b.id}
+                            type="button"
+                            onClick={() => setBlindType(b.id)}
+                            className={`p-3 rounded-xl border text-left text-xs font-semibold transition-all active:scale-98 ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                            }`}
+                          >
+                            <div>{b.label}</div>
+                            {b.surcharge > 0 && (
+                              <span className={`text-[11px] font-mono mt-0.5 block ${isSelected ? "text-cyan-300" : "text-slate-400"}`}>
+                                +{b.surcharge}.-
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Extras */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      3. Spezialverglasungen & Gegebenheiten
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {FENSTER_OPTIONS.extras.map((ex) => {
+                        const isChecked = fensterExtras.includes(ex.id);
+                        return (
+                          <button
+                            key={ex.id}
+                            type="button"
+                            onClick={() => toggleArrayItem(fensterExtras, setFensterExtras, ex.id)}
+                            className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[48px] ${
+                              isChecked
+                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div
+                                className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
+                                  isChecked ? "bg-cyan-500 border-cyan-500 text-white" : "border-slate-300 bg-white"
+                                }`}
+                              >
+                                {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                              </div>
+                              <span>{ex.name}</span>
+                            </div>
+                            <span className="text-slate-400 font-mono text-[11px] shrink-0 ml-2">
+                              +{ex.surcharge}.-
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ---------------- E) GEWERBE & BÜRO ---------------- */}
+              {service === "gewerbe" && (
+                <div className="space-y-6">
+                  {/* Fläche */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      1. Büro- oder Praxisfläche
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {GEWERBE_OPTIONS.sizes.map((s) => {
+                        const isSelected = gewerbeSize === s.id;
+                        return (
+                          <button
+                            key={s.id}
+                            type="button"
+                            onClick={() => setGewerbeSize(s.id)}
+                            className={`p-3.5 rounded-xl border text-left transition-all active:scale-98 ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/30"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                            }`}
+                          >
+                            <div className="text-xs font-bold">{s.label}</div>
+                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                              Basis ab CHF {s.baseMin}.- / Mt.
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Frequenz */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      2. Gewünschte Reinigungsfrequenz
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {GEWERBE_OPTIONS.frequencies.map((f) => {
+                        const isSelected = gewerbeFreq === f.id;
+                        return (
+                          <button
+                            key={f.id}
+                            type="button"
+                            onClick={() => setGewerbeFreq(f.id)}
+                            className={`p-3 rounded-xl border text-center transition-all active:scale-98 ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 font-bold"
+                                : "bg-white text-slate-700 border-slate-200"
+                            }`}
+                          >
+                            <div className="text-xs">{f.label}</div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Module */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      3. Spezifische Hygiene- & B2B-Module
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {GEWERBE_OPTIONS.modules.map((m) => {
+                        const isChecked = gewerbeModules.includes(m.id);
+                        return (
+                          <button
+                            key={m.id}
+                            type="button"
+                            onClick={() => toggleArrayItem(gewerbeModules, setGewerbeModules, m.id)}
+                            className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[48px] ${
+                              isChecked
+                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div
+                                className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
+                                  isChecked ? "bg-cyan-500 border-cyan-500 text-white" : "border-slate-300 bg-white"
+                                }`}
+                              >
+                                {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                              </div>
+                              <span>{m.name}</span>
+                            </div>
+                            <span className="text-slate-400 font-mono text-[11px] shrink-0 ml-2">
+                              +{m.surcharge}.-/Mt.
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ---------------- F) BAUREINIGUNG ---------------- */}
+              {service === "baureinigung" && (
+                <div className="space-y-6">
+                  {/* Phase */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      1. Phase & Art der Baureinigung
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {BAUREINIGUNG_OPTIONS.types.map((t) => {
+                        const isSelected = bauType === t.id;
+                        return (
+                          <button
+                            key={t.id}
+                            type="button"
+                            onClick={() => setBauType(t.id)}
+                            className={`p-3.5 rounded-xl border text-left transition-all active:scale-98 ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-cyan-400/30"
+                                : "bg-white text-slate-700 border-slate-200 hover:border-cyan-300"
+                            }`}
+                          >
+                            <div className="text-xs font-bold">{t.label}</div>
+                            <div className={`text-[11px] mt-0.5 ${isSelected ? "text-cyan-300" : "text-slate-500"}`}>
+                              {t.desc}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Grösse */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      2. Baufläche in m²
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {BAUREINIGUNG_OPTIONS.sizes.map((s) => {
+                        const isSelected = bauSize === s.id;
+                        return (
+                          <button
+                            key={s.id}
+                            type="button"
+                            onClick={() => setBauSize(s.id)}
+                            className={`p-3 rounded-xl border text-left transition-all active:scale-98 ${
+                              isSelected
+                                ? "bg-slate-900 text-white border-slate-900 font-bold"
+                                : "bg-white text-slate-700 border-slate-200"
+                            }`}
+                          >
+                            <div className="text-xs">{s.label}</div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Baureinigung Extras */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-2">
+                      3. Spezifische Rückstände & Bodenbeläge
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {BAUREINIGUNG_OPTIONS.extras.map((ex) => {
+                        const isChecked = bauExtras.includes(ex.id);
+                        return (
+                          <button
+                            key={ex.id}
+                            type="button"
+                            onClick={() => toggleArrayItem(bauExtras, setBauExtras, ex.id)}
+                            className={`flex items-center justify-between p-3 rounded-xl border text-left text-xs transition-all active:scale-98 min-h-[48px] ${
+                              isChecked
+                                ? "bg-cyan-50/80 border-cyan-400 text-slate-900 font-semibold"
+                                : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div
+                                className={`w-4 h-4 rounded-md flex items-center justify-center border transition-colors shrink-0 ${
+                                  isChecked ? "bg-cyan-500 border-cyan-500 text-white" : "border-slate-300 bg-white"
+                                }`}
+                              >
+                                {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                              </div>
+                              <span>{ex.name}</span>
+                            </div>
+                            <span className="text-slate-400 font-mono text-[11px] shrink-0 ml-2">
+                              +{ex.surcharge}.-
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Navigation Buttons */}
-              <div className="pt-4 flex items-center justify-between gap-3">
+              <div className="pt-4 flex items-center justify-between gap-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setStep(1)}
                   className="inline-flex items-center gap-1.5 px-5 py-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs hover:bg-slate-50 transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  <span>Zurück</span>
+                  <span>Dienstleistung ändern</span>
                 </button>
 
                 <button
@@ -428,7 +1019,7 @@ export function CostEstimator() {
                   onClick={() => setStep(3)}
                   className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-cyan-600 text-white font-bold text-sm shadow-md transition-colors active:scale-98"
                 >
-                  <span>Weiter zu Schritt 3</span>
+                  <span>Weiter zu Ort & Termin</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -440,10 +1031,10 @@ export function CostEstimator() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                  Einsatzort im Raum Bern & Wunschtermin
+                  Einsatzort im Grossraum Bern & Wunschtermin
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Im Grossraum Bern verrechnen wir grundsätzlich keine Anfahrtsspesen:
+                  Im Kanton Bern verrechnen wir grundsätzlich 0.– CHF Anfahrtsspesen:
                 </p>
               </div>
 
@@ -468,9 +1059,9 @@ export function CostEstimator() {
                       className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     />
                   </div>
-                  {/* Quick Bern Region Pills */}
+
                   <div className="flex flex-wrap gap-1.5 mt-2">
-                    {["3000 Bern", "3097 Liebefeld", "3072 Ostermundigen", "3074 Muri", "3600 Thun"].map((pill) => (
+                    {["3000 Bern", "3097 Liebefeld", "3072 Ostermundigen", "3074 Muri", "3052 Zollikofen", "3600 Thun"].map((pill) => (
                       <button
                         key={pill}
                         type="button"
@@ -490,7 +1081,7 @@ export function CostEstimator() {
                 {/* Desired Date */}
                 <div>
                   <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-1.5">
-                    Wunschtermin / Abgabetag
+                    Wunschtermin / Zügeltermin
                   </label>
                   <div className="relative">
                     <Calendar className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -502,7 +1093,7 @@ export function CostEstimator() {
                     />
                   </div>
                   <p className="text-[11px] text-slate-400 mt-1.5">
-                    Auch kurzfristige Termine oder Monatsende möglich.
+                    Auch kurzfristige Zügel-Notfälle oder Monatsenden möglich.
                   </p>
                 </div>
               </div>
@@ -511,16 +1102,14 @@ export function CostEstimator() {
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
                 <div>
                   <div className="text-xs font-bold text-slate-900">Personenaufzug / Lift vorhanden?</div>
-                  <div className="text-[11px] text-slate-500">Erleichtert den Materialtransport in höhere Etagen</div>
+                  <div className="text-[11px] text-slate-500">Erleichtert den Transport unserer Reinigungsmaschinen</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setHasLift(true)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
-                      hasLift
-                        ? "bg-slate-900 text-white border-slate-900"
-                        : "bg-white text-slate-600 border-slate-200"
+                      hasLift ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-600 border-slate-200"
                     }`}
                   >
                     Ja
@@ -529,9 +1118,7 @@ export function CostEstimator() {
                     type="button"
                     onClick={() => setHasLift(false)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
-                      !hasLift
-                        ? "bg-slate-900 text-white border-slate-900"
-                        : "bg-white text-slate-600 border-slate-200"
+                      !hasLift ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-600 border-slate-200"
                     }`}
                   >
                     Nein
@@ -539,8 +1126,7 @@ export function CostEstimator() {
                 </div>
               </div>
 
-              {/* Navigation Buttons */}
-              <div className="pt-4 flex items-center justify-between gap-3">
+              <div className="pt-4 flex items-center justify-between gap-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setStep(2)}
@@ -574,7 +1160,7 @@ export function CostEstimator() {
                   Wohin dürfen wir Ihre Preisrichtung senden?
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Geben Sie Ihre E-Mail und/oder Telefonnummer ein. Im nächsten Schritt wird Ihre Preisrichtung sofort berechnet und live angezeigt.
+                  Geben Sie Ihre E-Mail und/oder Telefonnummer ein. Im nächsten Schritt wird Ihre Preisrichtung sofort kalkuliert und live angezeigt.
                 </p>
               </div>
 
@@ -585,7 +1171,6 @@ export function CostEstimator() {
               )}
 
               <div className="space-y-4">
-                {/* Full Name */}
                 <div>
                   <label className="block text-xs font-bold text-slate-900 uppercase tracking-wide mb-1.5">
                     Vor- & Nachname <span className="text-slate-400 font-normal">(optional)</span>
@@ -596,20 +1181,19 @@ export function CostEstimator() {
                       type="text"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      placeholder="z. B. Marc Moser"
+                      placeholder="z. B. Driss & Amin Lourini"
                       autoComplete="name"
                       className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     />
                   </div>
                 </div>
 
-                {/* Email */}
                 <div>
                   <div className="flex justify-between items-center mb-1.5">
                     <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
                       E-Mail-Adresse
                     </label>
-                    <span className="text-[10px] text-cyan-700 font-semibold">Für schriftliche Offerte</span>
+                    <span className="text-[10px] text-cyan-700 font-semibold">Für detailliertes Angebot</span>
                   </div>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -624,7 +1208,6 @@ export function CostEstimator() {
                   </div>
                 </div>
 
-                {/* Phone */}
                 <div>
                   <div className="flex justify-between items-center mb-1.5">
                     <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
@@ -650,14 +1233,12 @@ export function CostEstimator() {
                 </div>
               </div>
 
-              {/* Privacy badge */}
               <div className="flex items-center gap-2 text-xs text-slate-500 pt-1">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>100% diskret nach Schweizer Datenschutzgesetz (revDSG). Keine Werbeanrufe.</span>
+                <span>100% diskret nach Schweizer revDSG. Wir hassen Spam genauso wie Staub.</span>
               </div>
 
-              {/* Navigation Buttons */}
-              <div className="pt-4 flex items-center justify-between gap-3">
+              <div className="pt-4 flex items-center justify-between gap-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setStep(3)}
@@ -677,7 +1258,7 @@ export function CostEstimator() {
                     <span>Berechnung läuft...</span>
                   ) : (
                     <>
-                      <span>Preisrichtung jetzt berechnen & freischalten</span>
+                      <span>Preisrichtung jetzt freischalten</span>
                       <Sparkles className="w-4 h-4" />
                     </>
                   )}
@@ -686,10 +1267,9 @@ export function CostEstimator() {
             </form>
           )}
 
-          {/* ================= STEP 5: PREISRICHTUNG REVEAL (ERGEBNIS) ================= */}
+          {/* ================= STEP 5: PREISRICHTUNG REVEAL (10/10 ERGEBNIS) ================= */}
           {step === 5 && result && (
             <div className="space-y-6 text-center animate-in fade-in zoom-in-95 duration-500">
-              {/* Top Success Badge */}
               <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
@@ -700,10 +1280,10 @@ export function CostEstimator() {
                 </span>
 
                 <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-3">
-                  Ihre persönliche Preisrichtung
+                  Ihre persönliche Preisrichtung für {currentServiceDef.title}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-md mx-auto">
-                  Kalkuliert für {currentRoom.rooms} Zimmer in {zip} {city} inklusive 100% Abnahmegarantie.
+                  Berechnet für {zip} {city} auf Basis der offiziellen Schweizer Richtpreise.
                 </p>
               </div>
 
@@ -721,61 +1301,56 @@ export function CostEstimator() {
                   </span>
                 </div>
 
-                {/* Big Price Highlight */}
                 <div className="text-3xl sm:text-5xl font-black text-white tracking-tight mt-1">
-                  {formatCHF(result.priceMin)} – {formatCHF(result.priceMax)}
+                  {formatCHF(result.minPrice)} – {formatCHF(result.maxPrice)}
+                </div>
+                <div className="text-xs text-cyan-300 font-semibold mt-1">
+                  {result.unitLabel}
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-white/10 text-xs text-slate-300 space-y-2.5">
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-400">Geschätzter Aufwand:</span>
-                    <span className="font-semibold text-white">ca. {result.hoursMin} – {result.hoursMax} Stunden</span>
+                    <span className="text-slate-400">Einschätzung / Turnus:</span>
+                    <span className="font-semibold text-white">{result.hoursText}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-400">100% Abnahmegarantie:</span>
+                    <span className="text-slate-400">Garantie & Standard:</span>
                     <span className="font-bold text-emerald-400 flex items-center gap-1">
-                      <ShieldCheck className="w-4 h-4" />
-                      Inklusive & vertraglich gesichert
+                      <ShieldCheck className="w-4 h-4 shrink-0" />
+                      <span>{currentServiceDef.guaranteeText}</span>
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-400">Übergabebegleitung:</span>
-                    <span className="font-semibold text-white">Persönlich vor Ort mit der Verwaltung</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-400">Anfahrtsspesen Bern:</span>
+                    <span className="text-slate-400">Anfahrtskosten Bern:</span>
                     <span className="font-semibold text-cyan-300">CHF 0.00 (Kostenlos)</span>
                   </div>
                 </div>
 
-                {/* Parameters badge summary */}
+                {/* Parameters Tag list */}
                 <div className="mt-4 pt-3 border-t border-white/10 flex flex-wrap gap-1.5 text-[11px]">
-                  <span className="px-2 py-0.5 rounded bg-white/10 text-slate-300">
-                    {currentRoom.rooms} Zimmer ({currentRoom.sqmRange})
+                  {result.summaryDetails.map((det, i) => (
+                    <span key={i} className="px-2.5 py-0.5 rounded-lg bg-white/10 text-slate-300 border border-white/10">
+                      ✓ {det}
+                    </span>
+                  ))}
+                  <span className="px-2.5 py-0.5 rounded-lg bg-cyan-950 text-cyan-300 border border-cyan-800/60">
+                    📍 {zip} {city}
                   </span>
-                  {selectedExtras.map((eId) => {
-                    const ex = SITE_CONFIG.pricingEstimates.extras.find((x) => x.id === eId);
-                    return ex ? (
-                      <span key={eId} className="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/60">
-                        + {ex.name}
-                      </span>
-                    ) : null;
-                  })}
                 </div>
               </div>
 
-              {/* Fast Action Buttons */}
+              {/* Action Buttons */}
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
                 <a
                   href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}?text=${encodeURIComponent(
-                    `Hallo AURA Clean Team, ich habe den Rechner genutzt (Ref: ${result.referenceNumber}) für ${currentRoom.rooms} Zi. in ${zip} ${city}. Richtwert: CHF ${result.priceMin} - ${result.priceMax}. Können wir den Termin besprechen?`
+                    `Hallo AURA Clean Team, ich habe den Rechner genutzt (Ref: ${result.referenceNumber}) für ${currentServiceDef.title} in ${zip} ${city}. Richtwert: CHF ${result.minPrice} - ${result.maxPrice} (${result.unitLabel}). Details: ${result.summaryDetails.join(", ")}. Können wir einen Termin abstimmen?`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-colors active:scale-98"
                 >
                   <MessageSquare className="w-4 h-4" />
-                  <span>Via WhatsApp bestätigen</span>
+                  <span>Via WhatsApp anfragen</span>
                 </a>
 
                 <a
@@ -787,12 +1362,11 @@ export function CostEstimator() {
                 </a>
               </div>
 
-              <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
-                <Clock className="w-3.5 h-3.5 text-cyan-500" />
-                <span>Unser Berner Team meldet sich werktags innerhalb von 2 Stunden bei Ihnen.</span>
+              <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
+                <Clock className="w-3.5 h-3.5 text-cyan-600" />
+                <span>Unser Berner Familienbetrieb meldet sich werktags innerhalb von 2 Stunden bei Ihnen.</span>
               </div>
 
-              {/* Recalculate button */}
               <div className="pt-2">
                 <button
                   type="button"
@@ -800,7 +1374,7 @@ export function CostEstimator() {
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
-                  <span>Neue Berechnung starten</span>
+                  <span>Andere Dienstleistung berechnen</span>
                 </button>
               </div>
             </div>
