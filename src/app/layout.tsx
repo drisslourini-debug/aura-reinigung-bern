@@ -1,8 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MobileActionDock } from "@/components/layout/MobileActionDock";
 import { SITE_CONFIG } from "@/config/site.config";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#0F172A",
+};
 
 export const metadata: Metadata = {
   title: `${SITE_CONFIG.brand.name} | Wohnungs- & Liegenschaftsreinigung Bern mit 100% Abnahmegarantie`,
@@ -76,8 +85,9 @@ export default function RootLayout({
       </head>
       <body className="antialiased min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pb-16 sm:pb-0">{children}</main>
         <Footer />
+        <MobileActionDock />
       </body>
     </html>
   );

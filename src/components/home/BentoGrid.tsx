@@ -37,7 +37,7 @@ export function BentoGrid() {
         {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card 1: Main Highlight - Umzugsreinigung (Spans 2 cols on lg) */}
-          <div className="lg:col-span-2 glass-panel rounded-3xl p-8 sm:p-10 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
+          <div className="lg:col-span-2 glass-panel rounded-3xl p-6 sm:p-10 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
             {/* Background luxury photo with gradient wash */}
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <Image
@@ -93,7 +93,7 @@ export function BentoGrid() {
               </div>
             </div>
 
-            <div className="mt-8 flex items-center justify-between pt-4 border-t border-slate-200/50">
+            <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-4 border-t border-slate-200/50">
               <Link
                 href="/dienstleistungen/umzugsreinigung"
                 className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 hover:text-cyan-600 transition-colors"
@@ -103,7 +103,7 @@ export function BentoGrid() {
               </Link>
               <Link
                 href="/offerte-anfragen?service=umzug"
-                className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-cyan-600 transition-colors shadow-sm"
+                className="w-full sm:w-auto text-center px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-cyan-600 transition-colors shadow-sm"
               >
                 Offerte kalkulieren
               </Link>
@@ -111,7 +111,7 @@ export function BentoGrid() {
           </div>
 
           {/* Card 2: Hauswartung & Liegenschaften */}
-          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[380px]">
+          <div className="glass-panel rounded-3xl p-6 sm:p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[380px]">
             {/* Background image */}
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <Image
@@ -170,7 +170,7 @@ export function BentoGrid() {
           </div>
 
           {/* Card 3: Unterhaltsreinigung */}
-          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[340px]">
+          <div className="glass-panel rounded-3xl p-6 sm:p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[340px]">
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <Image
                 src="/images/service-unterhalt.jpg"
@@ -207,7 +207,7 @@ export function BentoGrid() {
           </div>
 
           {/* Card 4: Fenster & Storen */}
-          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[340px]">
+          <div className="glass-panel rounded-3xl p-6 sm:p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[340px]">
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <Image
                 src="/images/service-fenster.jpg"
@@ -244,7 +244,7 @@ export function BentoGrid() {
           </div>
 
           {/* Card 5: Büro & Gewerbe */}
-          <div className="glass-panel rounded-3xl p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[340px]">
+          <div className="glass-panel rounded-3xl p-6 sm:p-8 relative overflow-hidden group hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between min-h-[340px]">
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <Image
                 src="/images/service-gewerbe.jpg"

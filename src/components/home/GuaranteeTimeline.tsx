@@ -67,7 +67,7 @@ export function GuaranteeTimeline() {
             return (
               <div
                 key={idx}
-                className="glass-panel rounded-3xl p-8 relative flex flex-col justify-between hover:shadow-xl transition-all duration-300 border-t-4 border-t-cyan-500"
+                className="glass-panel rounded-3xl p-6 sm:p-8 relative flex flex-col justify-between hover:shadow-xl transition-all duration-300 border-t-4 border-t-cyan-500"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">

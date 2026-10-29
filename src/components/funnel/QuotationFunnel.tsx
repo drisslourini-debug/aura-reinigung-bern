@@ -417,19 +417,23 @@ export function QuotationFunnel() {
                 <div className="grid grid-cols-3 gap-2">
                   <input
                     type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    autoComplete="postal-code"
                     placeholder="PLZ"
                     value={zip}
                     onChange={(e) => setZip(e.target.value)}
                     required
-                    className="px-3 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                    className="px-3 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 min-h-[48px]"
                   />
                   <input
                     type="text"
+                    autoComplete="address-level2"
                     placeholder="Ort (z.B. Bern, Köniz, Thun)"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     required
-                    className="col-span-2 px-3 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                    className="col-span-2 px-3 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 min-h-[48px]"
                   />
                 </div>
               </div>
@@ -489,11 +493,12 @@ export function QuotationFunnel() {
                 </label>
                 <input
                   type="text"
+                  autoComplete="name"
                   placeholder="z. B. Sandra Gerber"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 min-h-[48px]"
                 />
               </div>
 
@@ -505,11 +510,13 @@ export function QuotationFunnel() {
                   </label>
                   <input
                     type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
                     placeholder="079 123 45 67"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 min-h-[48px]"
                   />
                 </div>
 
@@ -520,11 +527,14 @@ export function QuotationFunnel() {
                   </label>
                   <input
                     type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    autoCapitalize="none"
                     placeholder="sandra.gerber@beispiel.ch"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 min-h-[48px]"
                   />
                 </div>
               </div>
