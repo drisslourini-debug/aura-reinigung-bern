@@ -19,9 +19,10 @@ export function RegionalCoverage() {
             </h2>
 
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              Als lokaler Geschwisterbetrieb kennen wir die spezifischen Anforderungen der
-              Berner Liegenschaftsverwaltungen (z. B. Von Graffenried, Livit, Wincasa,
-              Privera, Dr. Meyer). Wir sind pünktlich vor Ort und garantieren reibungslose Abläufe.
+              Als lokaler Geschwisterbetrieb sind wir im gesamten Kanton Bern flexibel und zuverlässig
+              für Sie im Einsatz. Wir kennen die strengen Kriterien bei Schweizer
+              Wohnungsabgaben im Detail und reinigen zuverlässig nach den Vorgaben von Vermietern
+              und Eigentümern.
             </p>
 
             <div className="space-y-3 pt-2">

@@ -28,7 +28,7 @@ export function BentoGrid() {
             Präzise Reinigungen nach Schweizer Qualitätsstandards.
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            Von der abnahmegarantierte Endreinigung mit persönlicher Übergabebegleitung bis zum verlässlichen Liegenschaftsservice für Berner Verwaltungen.
+            Von der abnahmegarantierte Endreinigung mit persönlicher Übergabebegleitung bis zur verlässlichen Pflege von Mehrfamilienhäusern und Geschäftsräumen.
           </p>
         </div>
 
@@ -133,7 +133,7 @@ export function BentoGrid() {
 
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                  Verwaltungen & STWEG
+                  MFH & STWEG
                 </span>
                 <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
                   Kapazitäten frei

@@ -47,7 +47,7 @@ export function BeforeAfterSlider() {
             Der Unterschied bei der Wohnungsabgabe
           </h2>
           <p className="mt-3 text-xs sm:text-base text-slate-300">
-            Wischen Sie mit dem Schieberegler, um typische Beanstandungspunkte der Berner Liegenschaftsverwaltungen mit unserem Abgabestandard zu vergleichen.
+            Wischen Sie mit dem Schieberegler, um typische Beanstandungspunkte bei der Wohnungsabgabe mit unserem gründlichen Reinigungsstandard zu vergleichen.
           </p>
 
           {/* Mobile Swipe Badge */}

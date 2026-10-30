@@ -40,7 +40,7 @@ async function deepAudit() {
       const parsed = JSON.parse(rawJson);
       console.log(`✓ [PASS] Valid JSON-LD found. @type: ${parsed["@type"]}, Name: ${parsed.name}`);
       console.log(`✓ [PASS] Address: ${parsed.address?.streetAddress}, ${parsed.address?.postalCode} ${parsed.address?.addressLocality}`);
-      console.log(`✓ [PASS] Rating: ${parsed.aggregateRating?.ratingValue} (${parsed.aggregateRating?.reviewCount} Reviews)`);
+      console.log(`✓ [PASS] Services cataloged: ${parsed.hasOfferCatalog?.itemListElement?.length || 0} offers`);
       console.log(`✓ [PASS] Geo: Lat ${parsed.geo?.latitude}, Long ${parsed.geo?.longitude}`);
     } catch (e) {
       console.log(`✗ [FAIL] Invalid JSON-LD syntax: ${e.message}`);

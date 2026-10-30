@@ -10,7 +10,6 @@ import {
   Calculator,
   Phone,
   FileCheck,
-  Star,
 } from "lucide-react";
 import { SITE_CONFIG } from "@/config/site.config";
 
@@ -87,16 +86,16 @@ export function HeroSection() {
               </a>
             </div>
 
-            {/* Real Rating Proof Strip */}
-            <div className="pt-2 flex items-center justify-center lg:justify-start gap-3 text-xs text-slate-500">
-              <div className="flex text-amber-500">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-amber-400 stroke-amber-400" />
-                ))}
-              </div>
-              <span className="font-bold text-slate-800">4.9 / 5.0</span>
+            {/* Genuine Service Commitments */}
+            <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-1 text-xs text-slate-600">
+              <span className="font-semibold text-slate-800 flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                100% Abnahmegarantie
+              </span>
               <span className="text-slate-300">•</span>
-              <span>48 verifizierte Wohnungsabgaben im Grossraum Bern</span>
+              <span>Verbindliche Fixpreis-Offerte</span>
+              <span className="text-slate-300">•</span>
+              <span>Persönlich geführtes Berner Team</span>
             </div>
           </div>
 
@@ -128,30 +127,33 @@ export function HeroSection() {
                     <div className="flex items-center justify-between text-xs">
                       <div>
                         <div className="font-bold text-white">
-                          Wohnungsübergabe Bern-Kirchenfeld
+                          Abnahmefertige Endreinigung
                         </div>
                         <div className="text-[11px] text-slate-300 mt-0.5">
-                          Küche, V-ZUG Geräte, Parkett & Lamellen abgenommen
+                          Küche, Sanitär, Fenster & Storen nach MV & HEV Richtlinien
                         </div>
                       </div>
                       <span className="text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-700/60 shrink-0">
-                        Ohne Mängel
+                        Abgabe-Standard
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Swiss Handover Property Management Badges */}
-              <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[10px] font-semibold text-slate-500">
-                <div className="py-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200">
-                  Livit & Wincasa
+              {/* Swiss Handover Quality Standards */}
+              <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[10px] font-semibold text-slate-600">
+                <div className="py-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center gap-1">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
+                  <span>MV & HEV Standard</span>
                 </div>
-                <div className="py-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200">
-                  Von Graffenried
+                <div className="py-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center gap-1">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
+                  <span>Inkl. Storen & Fenster</span>
                 </div>
-                <div className="py-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200">
-                  Dr. Meyer & Privera
+                <div className="py-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center gap-1">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
+                  <span>Kostenlose Nachreinigung</span>
                 </div>
               </div>
             </div>

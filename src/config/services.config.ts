@@ -130,7 +130,7 @@ export const SERVICES: ServiceItem[] = [
     faqs: [
       {
         question: "Muss ich während der Reinigung zu Hause sein?",
-        answer: "Nein, über 90% unserer Unterhaltskunden übergeben uns einen Schlüssel. Wir arbeiten mit einem gesicherten, protokollierten Schlüsseltresor-System.",
+        answer: "Nein, Sie müssen nicht zwingend vor Ort sein. Viele Kunden übergeben uns einen Schlüssel. Wir arbeiten mit einem gesicherten, protokollierten Schlüsseltresor-System und garantieren höchste Diskretion.",
       },
       {
         question: "Gibt es lange Vertragslaufzeiten?",
@@ -141,16 +141,16 @@ export const SERVICES: ServiceItem[] = [
   {
     slug: "hauswartung-treppenhaus",
     title: "Liegenschaftsservice & Hauswartung Bern",
-    headline: "Werterhalt und makelloser Eindruck für Verwaltungen, Stockwerkeigentümer und MFH.",
+    headline: "Werterhalt und makelloser Eindruck für Mehrfamilienhäuser, Stockwerkeigentümer und Liegenschaften.",
     category: "Liegenschaften",
-    badge: "Für Verwaltungen & STWEG",
+    badge: "Für Liegenschaften & STWEG",
     icon: "Building2",
     image: "/images/service-hauswartung.jpg",
     popular: true,
     heroImageDesc: "Architektonisch elegantes Treppenhaus in Bern mit gepflegtem Terrazzoboden und modernem Licht",
     shortDescription: "Treppenhausreinigung, Waschküchenhygiene, Umgebungsarbeiten, Containerdienst und technische Kontrollgänge.",
     usps: [
-      "Feste Tourdaten und digitale Erledigungsprotokolle für die Verwaltung",
+      "Feste Tourdaten und transparente Erledigungsprotokolle",
       "Rundum-Paket: Treppenhaus, Waschküche, Tiefgarage und Aussenbereich",
       "Leuchtmittel- und Haustechnikkontrolle mit sofortiger Mängelberichterstattung",
       "Zuverlässiger Winterdienst und Kehrichtbereitstellung nach Berner Abfuhrplan",
@@ -182,7 +182,7 @@ export const SERVICES: ServiceItem[] = [
         ],
       },
     ],
-    guaranteeText: "Verlässliche Ausführung nach festem Turnus. Verwaltungen erhalten auf Wunsch monatliche Qualitätsberichte und direkte Schadensmeldungen via Kurznachricht.",
+    guaranteeText: "Verlässliche Ausführung nach festem Turnus. Eigentümer und Auftraggeber erhalten auf Wunsch transparente Ausführungsberichte und direkte Schadensmeldungen.",
     faqs: [
       {
         question: "Für welche Liegenschaftsgrössen lohnt sich Ihr Service?",

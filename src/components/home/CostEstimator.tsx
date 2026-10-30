@@ -1303,7 +1303,7 @@ export function CostEstimator({ initialService }: CostEstimatorProps = {}) {
                   </span>
                   <span className="inline-flex items-center gap-1.5 text-[11px] text-emerald-300 bg-emerald-950/80 border border-emerald-800/80 px-2.5 py-0.5 rounded-full font-medium">
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Inkl. 8.1% MwSt. & Abnahme</span>
+                    <span>Inkl. 100% Abnahmegarantie</span>
                   </span>
                 </div>
 
