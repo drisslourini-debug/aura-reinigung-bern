@@ -153,9 +153,13 @@ export function BeforeAfterSlider() {
                   setSliderPosition((prev) => Math.max(0, prev - 5));
                 } else if (e.key === "ArrowRight") {
                   setSliderPosition((prev) => Math.min(100, prev + 5));
+                } else if (e.key === "Home") {
+                  setSliderPosition(0);
+                } else if (e.key === "End") {
+                  setSliderPosition(100);
                 }
               }}
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-white text-slate-950 shadow-2xl flex items-center justify-center font-bold text-[11px] sm:text-xs border border-slate-300 transition-transform active:scale-105 focus:outline-none select-none tracking-wide whitespace-nowrap"
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-white text-slate-950 shadow-2xl flex items-center justify-center font-bold text-[11px] sm:text-xs border border-slate-300 transition-transform active:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-900 select-none tracking-wide whitespace-nowrap"
               style={{ touchAction: "none" }}
             >
               Vorher ⟷ Nachher

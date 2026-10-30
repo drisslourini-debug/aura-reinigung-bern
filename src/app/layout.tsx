@@ -172,6 +172,30 @@ export default function RootLayout({
             description: "Regelmässige oder einmalige Sauberkeit für Privathaushalte mit GAV-Personal und versichertem Schlüsselservice.",
           },
         },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Fenster- und Storenreinigung",
+            description: "Streifenfreie Reinigung von Fenstern, Rahmenfalzen, Simsen und Lamellenstoren mit modernem Reinwasser-System.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Büro- und Praxisreinigung",
+            description: "Repräsentative Gewerbereinigung nach Hygieneplan ausserhalb der Bürozeiten mit Schlüsselprotokoll.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Baureinigung & Baufeinreinigung",
+            description: "Baugrobreinigung und bezugsfertige Baufeinreinigung nach Umbau, Sanierung oder Neubau im Kanton Bern.",
+          },
+        },
       ],
     },
   };
@@ -188,7 +212,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased min-h-screen flex flex-col selection:bg-slate-900 selection:text-white bg-slate-50 text-slate-900">
         <Header />
-        <main id="main-content" className="flex-1 pb-16 sm:pb-0">
+        <main id="main-content" className="flex-1 pb-24 sm:pb-0">
           {children}
         </main>
         <Footer />

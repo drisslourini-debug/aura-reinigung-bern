@@ -12,6 +12,7 @@ import {
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
+import { SITE_CONFIG } from "@/config/site.config";
 
 export function BentoGrid() {
   return (
@@ -351,6 +352,122 @@ export function BentoGrid() {
                 <span>Gewerbliche Offerte anfordern</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
+            </div>
+          </div>
+
+          {/* Card 6: Baureinigung & Baufeinreinigung (Spans 2 cols on lg) */}
+          <div className="lg:col-span-2 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all flex flex-col justify-between">
+            <div>
+              <div className="relative h-52 sm:h-60 w-full rounded-xl overflow-hidden mb-5 border border-slate-100">
+                <Image
+                  src="/images/service-baureinigung.jpg"
+                  alt="Baureinigung und Baufeinreinigung Kanton Bern"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 1024px) 100vw, 66vw"
+                />
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="px-3 py-1.5 rounded-lg bg-slate-900/90 text-white text-xs font-bold backdrop-blur-sm">
+                    Neubau, Umbau & Sanierung
+                  </span>
+                </div>
+                <div className="absolute bottom-3 right-3 z-10">
+                  <span className="px-3 py-1 rounded-md bg-white/95 text-slate-900 font-bold text-xs shadow-md">
+                    Ab CHF 650.– Fixpreis
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Bauherren, Architekten & Eigentümer
+                </span>
+                <span className="text-xs text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full font-semibold border border-emerald-200">
+                  Bezugsfertige Übergabe
+                </span>
+              </div>
+
+              <h3 className="text-2xl font-black text-slate-900 tracking-tight">
+                Baureinigung & bezugsfertige Baufeinreinigung
+              </h3>
+              <p className="mt-2 text-slate-600 text-sm leading-relaxed">
+                Professionelle Baugrobreinigung während der Bauphase sowie minutengenaue Baufeinreinigung vor der Schlüsselübergabe. Beseitigung von Zementschleiern, Farbenspritzern, Feinstaub und Schutzfolien.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-5 pt-4 border-t border-slate-100 text-xs text-slate-700 font-medium">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Zementschleier- & Mörtelentfernung auf Feinsteinzeug</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Glas- & Fensterreinigung inkl. Kleberesten</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-5 border-t border-slate-100">
+              <Link
+                href="/dienstleistungen/baureinigung"
+                className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs font-bold text-slate-900 hover:text-slate-700 transition-colors py-1"
+              >
+                <span>Details zur Baureinigung ansehen</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <Link
+                href="/offerte-anfragen?service=baureinigung"
+                className="text-center px-5 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition-colors shadow-sm active:scale-98"
+              >
+                Bau-Offerte berechnen
+              </Link>
+            </div>
+          </div>
+
+          {/* Card 7: Individuelle Spezialprojekte & Beratung (1 col on lg) */}
+          <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-7 border border-slate-800 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="w-6 h-6 rounded-md bg-red-600 text-white flex items-center justify-center font-black text-xs leading-none">
+                  +
+                </span>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
+                  Kanton Bern
+                </span>
+              </div>
+
+              <h3 className="text-xl font-bold tracking-tight text-white mb-2">
+                Individuelle Projekte & Spezialreinigungen
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+                Haben Sie ein spezielles Objekt, eine Räumung, mehrere Liegenschaften oder kurzfristigen Notfall-Bedarf?
+              </p>
+
+              <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs text-slate-200 space-y-1.5">
+                <div className="font-bold text-white flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span>Geschwister-Direktberatung</span>
+                </div>
+                <p className="text-[11px] text-slate-400">
+                  Antwort & Terminabsprache werktags innerhalb von 2 Stunden.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-slate-800 space-y-2">
+              <Link
+                href="/kontakt"
+                className="block text-center py-2.5 px-4 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs transition-colors"
+              >
+                Kontakt aufnehmen
+              </Link>
+              <a
+                href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-center py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors"
+              >
+                WhatsApp Direktchat
+              </a>
             </div>
           </div>
         </div>

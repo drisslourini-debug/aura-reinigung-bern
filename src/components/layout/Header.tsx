@@ -10,7 +10,6 @@ import {
   X,
   ArrowRight,
   MessageSquare,
-  Sparkles,
   Home,
   Building2,
   Clock,
@@ -203,7 +202,7 @@ export function Header() {
                 className="flex items-center justify-between p-3.5 text-sm font-bold text-slate-800 active:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-slate-100 text-slate-800 flex items-center justify-center">
                     <Calculator className="w-4 h-4" />
                   </div>
                   <span>Online Fixpreis-Rechner</span>

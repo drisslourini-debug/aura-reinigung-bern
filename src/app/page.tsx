@@ -6,7 +6,7 @@ import { GuaranteeTimeline } from "@/components/home/GuaranteeTimeline";
 import { CostEstimator } from "@/components/home/CostEstimator";
 import { BeforeAfterSlider } from "@/components/home/BeforeAfterSlider";
 import { RegionalCoverage } from "@/components/home/RegionalCoverage";
-import { ArrowRight, Phone, MessageSquare, ShieldCheck } from "lucide-react";
+import { ArrowRight, Phone, MessageSquare } from "lucide-react";
 import { SITE_CONFIG } from "@/config/site.config";
 
 export default function HomePage() {
